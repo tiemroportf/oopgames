@@ -11,7 +11,7 @@ function draw() {
   fill('wheat');
   rect(0,350,450,100);
   
-  translate(0,0);
+  translate(0, -10);
   // begin teken het huis
   strokeWeight(4);
   stroke('darkgrey');
@@ -23,7 +23,7 @@ function draw() {
   noStroke();
   rect(120,330,30,50);
   // einde teken het huis
-  // translate(-90,10);
+  //translate(-90,10);
   
   // teken de maan
   fill('khaki');
@@ -33,4 +33,7 @@ function draw() {
   rect(300,250,40,130);
   fill('olive');
   ellipse(320,230,100,150);
+
+
+  
 }
