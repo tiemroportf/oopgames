@@ -15,7 +15,7 @@ function draw() {
   text("x = " + round(xJOS),10,20);
   tekenJos(xJOS,yJOS);
 }
-
+//temp
 function tekenJos(x,y) {
   push();
   translate(x,y);
