@@ -13,6 +13,8 @@ function setup() {
 function draw() {
   background('olive');
   
+
+
   if (keyIsDown(LEFT_ARROW)) {
     x -= 5;
   }
@@ -38,5 +40,7 @@ function draw() {
   rect(800,175,75,50);
   
   fill('moccasin');
-  rect(x,y,100,100);   
+  rect(x,y,100,100); 
+  
+  
 }

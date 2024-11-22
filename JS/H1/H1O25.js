@@ -9,7 +9,7 @@ var onderlingeAfstand;
 function setup() {
   canvas = createCanvas(1000,300);
   canvas.parent('processing');
-  frameRate(50);
+  frameRate(10000);
   colorMode(RGB,255,255,255,1);
   background(0,0,75,1);
   noStroke();
@@ -30,7 +30,7 @@ function draw() {
   
   // Pas onderstaande regel aan: gebruik de functie dist om de onderlinge afstand te bepalen
   
-  onderlingeAfstand = 1;
+  onderlingeAfstand=round(dist(550,height - straal,xPositie,yPositie)) - 2*straal;
   if (onderlingeAfstand <= 0) {
     eindScherm();
     noLoop();
@@ -39,11 +39,14 @@ function draw() {
   // door de slashes weg te halen kun je besturing van de bal inschakelen.
   // Om het wat moeilijker te maken veranderen er bij gebruik van een pijltoets 2 dingen tegelijkertijd.
   
-  // gebruikBesturing();
+  gebruikBesturing();
 
   if (yPositie<straal || yPositie>height-straal) {
     ySnelheid *= -1;
-  } 
+  }
+  if (xPositie<straal || xPositie>width-straal) {
+    xSnelheid *= -1;
+  }  
 }
 
 function gebruikBesturing() {

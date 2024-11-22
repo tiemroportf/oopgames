@@ -9,12 +9,12 @@ function draw() {
   background('orange');
   fill('wheat');
   rect(0,250,width,height - 250);
-  translate(125,0);
+  translate(10,10);
 
-  for (var n = 1;n <= 4;n++) {
+  for (var i = 0; i <= 6; i++) {
     tekenHuis();
-    tekenBoom(n);
-    translate(200,0);
+    tekenBoom(i);
+    translate(165,0);
   }
 }
 
