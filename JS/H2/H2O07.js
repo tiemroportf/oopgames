@@ -10,8 +10,11 @@ function setup() {
   noStroke();
   vierkanten.push(30);
   // voeg je eigen naam toe
+  namen.push("Tiemen")
   // sorteer de array met namen
+  namen.sort();
   // verwijder het eerste element uit vierkanten
+  vierkanten.shift();
   noLoop();
 }
 
@@ -20,7 +23,7 @@ function draw() {
     fill('white');
     text(vierkanten[teller],20,48*(teller + 1));
     text("omtrek = " + 4*vierkanten[teller],130,48*(teller + 1));
-    text("opp = ",400,48*(teller + 1));
+    text("opp = " + vierkanten[teller] * vierkanten[teller],400,48*(teller + 1));
     fill('dodgerblue');
     rect(90,48*(teller) + 25,vierkanten[teller],vierkanten[teller]);
   }
