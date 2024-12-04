@@ -13,7 +13,7 @@ function setup() {
   canvas = createCanvas(460,460);
   canvas.parent('processing');
   noStroke();
-  frameRate(2);
+  frameRate(5);
   textFont("Georgia");
   textSize(18);
 }
@@ -23,7 +23,7 @@ function draw() {
   image(animatie[nummer],0,0);
   nummer++;
 
-  if (nummer == aantalBeeldjes) {
+  if (nummer == animatie.length) {
     nummer = 0;
   }
   
