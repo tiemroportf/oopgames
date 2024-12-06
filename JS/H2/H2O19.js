@@ -9,6 +9,33 @@ var frame;
 var xJos = 400;
 var yJos = 300;
 
+
+var raster = {
+  aantalRijen: 6,
+  aantalKolommen: 6,
+  celGrootte: null,
+
+  berekenCelGrootte() {
+    this.celGrootte =
+     width/this.aantalKolommen;
+  },
+
+  teken() {
+    push();
+    noFill();
+    stroke('grey');
+    for (var rij = 0;rij < aantalRijenRaster;rij++) {
+      for (var kolom = 0;kolom < aantalKolommenRaster;kolom++) {
+        rect(kolom*raster.celGrootte,rij*raster.celGrootte,raster.celGrootte,raster.celGrootte);
+      }
+    }
+    pop();
+  
+    
+  }
+    
+}
+
 function preload() {
   brug = loadImage("images/backgrounds/dame_op_brug_1800.jpg");
   for (var b = 0;b < aantalBeeldjes;b++) {
@@ -20,45 +47,34 @@ function preload() {
 function setup() {
   canvas = createCanvas(900,600);
   canvas.parent('processing');
-  frameRate(10);
-  celGrootte = width / aantalKolommenRaster;
+  frameRate(144);
+  raster.berekenCelGrootte();
 }
 
 function draw() {
   background(brug);
-  tekenRaster();
+  raster.teken();
 
   if (keyIsDown(LEFT_ARROW)) {
-    xJos -= celGrootte;
+    xJos -= raster.celGrootte;
     nummer = 2;
   }
   if (keyIsDown(RIGHT_ARROW)) {
-    xJos+=celGrootte;
+    xJos+=raster.celGrootte;
     nummer=1;
   }
   if (keyIsDown(UP_ARROW)) {
-    yJos -= celGrootte;
+    yJos -= raster.celGrootte;
     nummer = 4;
   }
   if (keyIsDown(DOWN_ARROW)) {
-    yJos += celGrootte;
+    yJos += raster.celGrootte;
     nummer = 5;
   }
   
-  xJos = constrain(xJos,0,width - celGrootte);
-  yJos = constrain(yJos,0,height - celGrootte);
+  xJos = constrain(xJos,0,width - raster.celGrootte);
+  yJos = constrain(yJos,0,height - raster.celGrootte);
   
-  image(animatie[nummer],xJos,yJos,celGrootte,celGrootte);
+  image(animatie[nummer],xJos,yJos,raster.celGrootte,raster.celGrootte);
 }
 
-function tekenRaster() {
-  push();
-  noFill();
-  stroke('grey');
-  for (var rij = 0;rij < aantalRijenRaster;rij++) {
-    for (var kolom = 0;kolom < aantalKolommenRaster;kolom++) {
-      rect(kolom*celGrootte,rij*celGrootte,celGrootte,celGrootte);
-    }
-  }
-  pop();
-}

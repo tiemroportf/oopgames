@@ -29,7 +29,7 @@ var jos = {
 
   beweeg() {
     if (keyIsDown(LEFT_ARROW)) {
-      this.x -= raster.celGrootte;
+      this.x -= this.stapGrootte;
       this.frameNummer = 2;
     }
     if (keyIsDown(RIGHT_ARROW)) {
