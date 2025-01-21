@@ -1,0 +1,93 @@
+{
+    "walls": [
+        {
+            "location": {
+                "x": 50,
+                "y": 50
+            },
+            "width": 1825,
+            "height": 25
+        },
+
+        {
+            "location": {
+                "x":50,
+                "y":75
+            },
+            "width": 25,
+            "height": 325
+        },
+
+        
+        {
+            "location": {
+                "x": 50,
+                "y": 525
+            },
+            "width": 25,
+            "height": 325
+        },
+        {
+            "location": {
+                "x": 0,
+                "y": 375
+            },
+            "width": 50,
+            "height": 25
+        },
+
+        {
+            "location": {
+                "x": 0,
+                "y": 525
+            },
+            "width": 50,
+            "height": 25
+        },
+
+        {
+            "location": {
+                "x": 50,
+                "y": 850
+            },
+            "width": 1825,
+            "height": 25
+        },
+
+        {
+            "location": {
+                "x": 1850,
+                "y": 525
+            },
+            "width": 25,
+            "height": 325
+        },
+        {
+            "location": {
+                "x": 1875,
+                "y": 375
+            },
+            "width": 50,
+            "height": 25
+        },
+        {
+            "location": {
+                "x": 1875,
+                "y": 525
+            },
+            "width": 50,
+            "height": 25
+        },
+        {
+            "location": {
+                "x":1850,
+                "y":75
+            },
+            "width": 25,
+            "height": 325
+        }
+        
+
+            
+    ]
+}
