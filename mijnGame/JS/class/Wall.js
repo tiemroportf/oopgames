@@ -5,6 +5,7 @@ class Wall  {
         this.y = y;
         this.wallWidth = w;
         this.wallHeight = h;
+        
     }
 
     teken() {

@@ -5,7 +5,7 @@
                 "x": 50,
                 "y": 50
             },
-            "width": 1825,
+            "width":  1825,
             "height": 25
         },
 
@@ -25,7 +25,7 @@
                 "y": 525
             },
             "width": 25,
-            "height": 325
+            "height": 350
         },
         {
             "location": {
@@ -48,7 +48,7 @@
         {
             "location": {
                 "x": 50,
-                "y": 850
+                "y": 875
             },
             "width": 1825,
             "height": 25
@@ -60,7 +60,7 @@
                 "y": 525
             },
             "width": 25,
-            "height": 325
+            "height": 350
         },
         {
             "location": {
@@ -85,6 +85,15 @@
             },
             "width": 25,
             "height": 325
+        },
+
+        {
+            "location": {
+                "x" : 950,
+                "y": 550
+            },
+            "width": 100,
+            "height": 25
         }
         
 

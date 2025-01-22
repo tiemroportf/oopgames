@@ -5,7 +5,9 @@ var pacLives = 3;
 
 var l1Data;
 var walls = [];
-var rosterEnabled = true;
+let pacman;
+let pacX = 25;
+let pacY = 25;
 
 
 //let btnFont;
@@ -13,15 +15,16 @@ var rosterEnabled = true;
 function preload() {
     //btnFont = loadFont('../assets/PacfontGood-yYye.ttf');
     l1Data = loadJSON('assets/level/1.json');
+    pacman = loadImage('assets/sprites/pacman/0.png');
 }
 
 
 function setup() {
     jsonDataToArray();
     createCanvas(windowWidth, windowHeight);
-    textSize(40);
+    
     textAlign(CENTER,CENTER);
-    frameRate(144);
+    frameRate(10);
     
 
     gui = createGui();
@@ -36,6 +39,15 @@ function draw() {
         drawRoster(100,100);
 
     }
+    image(pacman, pacX,pacY);
+
+    if (keyIsDown(RIGHT_ARROW)) pacX +=25;
+    if (keyIsDown(LEFT_ARROW)) pacX -=25;
+
+    if (keyIsDown(UP_ARROW)) pacY -=25;
+
+    if (keyIsDown(DOWN_ARROW)) pacY +=25;
+
 
     push();
     for (var i = 0; i < walls.length; i++) {
@@ -88,4 +100,6 @@ function initBtns() {
     start.onPress = startGame;
 
 }
+
+
 
