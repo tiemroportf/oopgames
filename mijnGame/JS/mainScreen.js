@@ -9,6 +9,11 @@ let pacman;
 let pacX = 25;
 let pacY = 25;
 
+// [North, East, South, West]
+let pacSpeeds = [25,25,25,25];
+let directions= ["North", "East", "South", "West"];
+let pacDirection = "East";
+
 
 //let btnFont;
 
@@ -40,15 +45,21 @@ function draw() {
 
     }
     image(pacman, pacX,pacY);
+    pacX = constrain(pacX, 0, windowWidth - 25);
+    pacY = constrain(pacY, 0, windowHeight - 25);
 
-    if (keyIsDown(RIGHT_ARROW)) pacX +=25;
-    if (keyIsDown(LEFT_ARROW)) pacX -=25;
+    if (keyIsDown(RIGHT_ARROW)) {pacX +=pacSpeeds[1]; pacDirection = directions[1];}
+    if (keyIsDown(LEFT_ARROW)) {pacX -=pacSpeeds[3]; pacDirection = directions[3];}
 
-    if (keyIsDown(UP_ARROW)) pacY -=25;
+    if (keyIsDown(UP_ARROW)) {pacY -=pacSpeeds[0]; pacDirection = directions[0];}
 
-    if (keyIsDown(DOWN_ARROW)) pacY +=25;
+    if (keyIsDown(DOWN_ARROW)) { pacY +=pacSpeeds[2]; pacDirection = directions[2];}
+
+    //walls['location']['x'].array.forEach(checkPacLoc('x'));
 
 
+    console.log(pacDirection);
+    
     push();
     for (var i = 0; i < walls.length; i++) {
         walls[i].teken();
@@ -96,9 +107,19 @@ function initBtns() {
     start = createButton("Start Game", width/2 -75, height / 2 -250);
     start.setStyle("fillBg", color('#2121DE'));
     start.setStyle("textSize", 18);
-    start.setStyle("font", "System Bold")
+    start.setStyle("font", "System Bold");
     start.onPress = startGame;
 
+}
+
+function checkPacLoc(t){
+    if (t == 'x') {
+        if (pacX == walls['location']['x'] || (pacX >= walls['location']['x'] - 25 && pacX <=  walls['location']['x'] + 25 )){
+            
+            
+        }
+
+    }
 }
 
 
