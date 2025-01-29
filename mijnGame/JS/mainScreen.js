@@ -11,7 +11,7 @@ let pacY = 25;
 
 // [North, East, South, West]
 let pacSpeeds = [25,25,25,25];
-let directions= ["North", "East", "South", "West"];
+let directions = ["North", "East", "South", "West"];
 let pacDirection = "East";
 
 
@@ -48,17 +48,28 @@ function draw() {
     pacX = constrain(pacX, 0, windowWidth - 25);
     pacY = constrain(pacY, 0, windowHeight - 25);
 
-    if (keyIsDown(RIGHT_ARROW)) {pacX +=pacSpeeds[1]; pacDirection = directions[1];}
-    if (keyIsDown(LEFT_ARROW)) {pacX -=pacSpeeds[3]; pacDirection = directions[3];}
+    if (keyIsDown(RIGHT_ARROW)) {pacX +=pacSpeeds[1]; pacDirection = directions[1]; walls.forEach((wall) => {
+
+
+
+        
+
+        let v = wall.x;
+        checkPacLoc(v);
+        console.log(v);
+    })} 
+        
+    if (keyIsDown(LEFT_ARROW)) {pacX -=pacSpeeds[3]; pacDirection = directions[3]; }
 
     if (keyIsDown(UP_ARROW)) {pacY -=pacSpeeds[0]; pacDirection = directions[0];}
 
     if (keyIsDown(DOWN_ARROW)) { pacY +=pacSpeeds[2]; pacDirection = directions[2];}
 
-    //walls['location']['x'].array.forEach(checkPacLoc('x'));
+    
+    
 
 
-    console.log(pacDirection);
+   
     
     push();
     for (var i = 0; i < walls.length; i++) {
@@ -112,12 +123,31 @@ function initBtns() {
 
 }
 
-function checkPacLoc(t){
-    if (t == 'x') {
-        if (pacX == walls['location']['x'] || (pacX >= walls['location']['x'] - 25 && pacX <=  walls['location']['x'] + 25 )){
+function checkPacLoc(w) {
+
+    /*
+    if (t == 'xCord') {
+        if (pacX == walls['location'][t] || (pacX >= walls['location']['x'] - 25 && pacX <=  walls['location']['x'] + 25 ))
             
-            
+        {
+            console.log(pacDirection[0]);
+        }     
+    } else if (t=='yCord') {
+        if (pacY == walls['location'][t] || (pacY >= walls['location']['y'] - 25 && pacY <=  walls['location']['y'] + 25 )){
+
         }
+    }
+        */
+
+    let index = directions.indexOf(pacDirection);
+    //console.log(index);
+
+    if (w.x <= pacX <= (w.x + w.width)) {
+
+
+        
+        pacSpeeds[index] = 0;
+
 
     }
 }
