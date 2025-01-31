@@ -6,8 +6,8 @@ var pacLives = 3;
 var l1Data;
 var walls = [];
 let pacman;
-let pacX = 25;
-let pacY = 25;
+let pacX = 450;
+let pacY = 450;
 
 // [North, East, South, West]
 let pacSpeeds = [25,25,25,25];
@@ -48,15 +48,30 @@ function draw() {
     pacX = constrain(pacX, 0, windowWidth - 25);
     pacY = constrain(pacY, 0, windowHeight - 25);
 
-    if (keyIsDown(RIGHT_ARROW)) {pacX +=pacSpeeds[1]; pacDirection = directions[1]; walls.forEach((wall) => {
-
+    if (keyIsDown(RIGHT_ARROW)) {
+        
+        pacX +=pacSpeeds[1]; 
+        pacDirection = directions[1]; 
+        walls.forEach((wall) => {
 
 
         
+        let wx = wall.x;
+        let wy = wall.y;
+        let ww = wall.wallWidth;
+        let wh = wall.wallHeight;
+        
 
-        let v = wall.x;
-        checkPacLoc(v);
-        console.log(v);
+        for (var i = 0; i < walls.length; i++) {
+            //Correct   wx + ww >= pacX >= wx && wy + wh >= pacY >= wy
+            
+            if ((pacX == wx && pacY == wy) || (pacX ==)) {
+
+                console.log("Test");
+                pacX -= pacSpeeds[1];
+            }
+        }
+        
     })} 
         
     if (keyIsDown(LEFT_ARROW)) {pacX -=pacSpeeds[3]; pacDirection = directions[3]; }
@@ -123,33 +138,8 @@ function initBtns() {
 
 }
 
-function checkPacLoc(w) {
+function checkPacLoc(x,y) {
 
-    /*
-    if (t == 'xCord') {
-        if (pacX == walls['location'][t] || (pacX >= walls['location']['x'] - 25 && pacX <=  walls['location']['x'] + 25 ))
-            
-        {
-            console.log(pacDirection[0]);
-        }     
-    } else if (t=='yCord') {
-        if (pacY == walls['location'][t] || (pacY >= walls['location']['y'] - 25 && pacY <=  walls['location']['y'] + 25 )){
-
-        }
-    }
-        */
-
-    let index = directions.indexOf(pacDirection);
-    //console.log(index);
-
-    if (w.x <= pacX <= (w.x + w.width)) {
-
-
-        
-        pacSpeeds[index] = 0;
-
-
-    }
 }
 
 
