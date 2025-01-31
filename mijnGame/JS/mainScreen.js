@@ -5,6 +5,7 @@ var pacLives = 3;
 
 var l1Data;
 var walls = [];
+
 let pacman;
 let pacX = 450;
 let pacY = 450;
@@ -26,6 +27,8 @@ function preload() {
 
 function setup() {
     jsonDataToArray();
+    
+    
     createCanvas(windowWidth, windowHeight);
     
     textAlign(CENTER,CENTER);
@@ -34,7 +37,8 @@ function setup() {
 
     gui = createGui();
    //initBtns();
-    
+
+
 
 }
 
@@ -49,36 +53,64 @@ function draw() {
     pacY = constrain(pacY, 0, windowHeight - 25);
 
     if (keyIsDown(RIGHT_ARROW)) {
-        
         pacX +=pacSpeeds[1]; 
-        pacDirection = directions[1]; 
         walls.forEach((wall) => {
+            let wx = wall.x;
+            let wy = wall.y;
+            let ww = wall.wallWidth;
+            let wh = wall.wallHeight;
 
-
-        
-        let wx = wall.x;
-        let wy = wall.y;
-        let ww = wall.wallWidth;
-        let wh = wall.wallHeight;
-        
-
-        for (var i = 0; i < walls.length; i++) {
-            //Correct   wx + ww >= pacX >= wx && wy + wh >= pacY >= wy
-            
-            if ((pacX == wx && pacY == wy) || (pacX ==)) {
-
-                console.log("Test");
-                pacX -= pacSpeeds[1];
+                        
+    
+            if (pacX + 25 > wx && pacX < wx + ww && pacY + 25 > wy && pacY < wy + wh) {
+                pacX -= pacSpeeds[1]; // Move Pac-Man back
             }
-        }
-        
-    })} 
-        
-    if (keyIsDown(LEFT_ARROW)) {pacX -=pacSpeeds[3]; pacDirection = directions[3]; }
+        });
 
-    if (keyIsDown(UP_ARROW)) {pacY -=pacSpeeds[0]; pacDirection = directions[0];}
+    }
+    if (keyIsDown(LEFT_ARROW)) {
+        pacX -=pacSpeeds[3];  
+        walls.forEach((wall) => {
+            let wx = wall.x;
+            let wy = wall.y;
+            let ww = wall.wallWidth;
+            let wh = wall.wallHeight;
+    
+            if (pacX < wx + ww && pacX + 25 > wx && pacY + 25 > wy && pacY < wy + wh) {
+                pacX += pacSpeeds[3]; // Move Pac-Man back if a collision occurs
+            }
+        });
+        
+    }
+    if (keyIsDown(UP_ARROW)) {
+        pacY -=pacSpeeds[0];  
+        walls.forEach((wall) => {
+            let wx = wall.x;
+            let wy = wall.y;
+            let ww = wall.wallWidth;
+            let wh = wall.wallHeight;
+    
+            if (pacX + 25 > wx && pacX < wx + ww && pacY < wy + wh && pacY + 25 > wy) {
+                pacY += pacSpeeds[0]; // Move Pac-Man back if a collision occurs
+            }
+        });
+    }
+    if (keyIsDown(DOWN_ARROW)) { 
+        pacY +=pacSpeeds[2]; 
+        walls.forEach((wall) => {
+            let wx = wall.x;
+            let wy = wall.y;
+            let ww = wall.wallWidth;
+            let wh = wall.wallHeight;
+    
 
-    if (keyIsDown(DOWN_ARROW)) { pacY +=pacSpeeds[2]; pacDirection = directions[2];}
+            if (pacX + 25 > wx && pacX < wx + ww && pacY + 25 > wy && pacY < wy + wh) {
+                pacY -= pacSpeeds[2]; // Move Pac-Man back if a collision occurs
+            }
+        });
+    
+    
+    }
 
     
     
@@ -135,10 +167,6 @@ function initBtns() {
     start.setStyle("textSize", 18);
     start.setStyle("font", "System Bold");
     start.onPress = startGame;
-
-}
-
-function checkPacLoc(x,y) {
 
 }
 
