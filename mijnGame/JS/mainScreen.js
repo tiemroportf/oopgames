@@ -6,14 +6,14 @@ var pacLives = 3;
 var l1Data;
 var walls = [];
 
-let pacman;
+let pacmanTextures = [];
 let pacX = 450;
 let pacY = 450;
 
-// [North, East, South, West]
+// [Up, Right, Down, Left]
 let pacSpeeds = [25,25,25,25];
-let directions = ["North", "East", "South", "West"];
-let pacDirection = "East";
+let directions = ["up", "right", "down", "left"];
+let pacDirection = directions[3];
 
 
 //let btnFont;
@@ -21,7 +21,9 @@ let pacDirection = "East";
 function preload() {
     //btnFont = loadFont('../assets/PacfontGood-yYye.ttf');
     l1Data = loadJSON('assets/level/1.json');
-    pacman = loadImage('assets/sprites/pacman/0.png');
+    pacmanTextures = loadImage('assets/sprites/pacman/' + directions[3] +'.png');
+
+    
 }
 
 
@@ -48,7 +50,7 @@ function draw() {
         drawRoster(100,100);
 
     }
-    image(pacman, pacX,pacY);
+    image(pacmanTextures, pacX,pacY);
     pacX = constrain(pacX, 0, windowWidth - 25);
     pacY = constrain(pacY, 0, windowHeight - 25);
 
@@ -67,6 +69,10 @@ function draw() {
             }
         });
 
+        if (pacX > 1825) {
+            pacX = 75;
+        }
+
     }
     if (keyIsDown(LEFT_ARROW)) {
         pacX -=pacSpeeds[3];  
@@ -80,6 +86,11 @@ function draw() {
                 pacX += pacSpeeds[3]; // Move Pac-Man back if a collision occurs
             }
         });
+
+        if (pacX < 75 ) {
+            pacX = 1825;
+        }
+        
         
     }
     if (keyIsDown(UP_ARROW)) {
