@@ -1,6 +1,3 @@
-let gui;
-let start, controls;
-var gameStarted = false;
 var pacLives = 3;
 
 var l1Data;
@@ -16,36 +13,23 @@ let directions = ["up", "right", "down", "left"];
 let pacDirection = directions[3];
 
 
-//let btnFont;
 
 function preload() {
-    //btnFont = loadFont('../assets/PacfontGood-yYye.ttf');
     l1Data = loadJSON('assets/level/1.json');
     pacmanTextures = loadImage('assets/sprites/pacman/' + directions[3] +'.png');
-
-    
 }
 
 
 function setup() {
     jsonDataToArray();
-    
-    
     createCanvas(windowWidth, windowHeight);
-    
     textAlign(CENTER,CENTER);
     frameRate(10);
-    
-
-    gui = createGui();
-   //initBtns();
-
-
-
 }
 
 function draw() {
     background(0);
+    
     if (keyIsDown(13)){
         drawRoster(100,100);
 
@@ -127,7 +111,6 @@ function draw() {
     
 
 
-   
     
     push();
     for (var i = 0; i < walls.length; i++) {
@@ -151,35 +134,25 @@ function jsonDataToArray() {
     }
 }
 
-function drawRoster(columns) {
-
-    
+function drawRoster(columns, rows) {
     for (var columns = 0;columns < width;columns += 25) {
         for (var rows = 0; rows < height; rows += 25) {
+
+            push();
             stroke(75)
             strokeWeight(1);
             fill(0);
             rect(columns,rows,25,25);
-        }
-    }
-    
-    
-}
-function startGame() {
-    start.visible = false;
-    gameStarted = true;
-   
-    
-    
-}
-function initBtns() {
-    start = createButton("Start Game", width/2 -75, height / 2 -250);
-    start.setStyle("fillBg", color('#2121DE'));
-    start.setStyle("textSize", 18);
-    start.setStyle("font", "System Bold");
-    start.onPress = startGame;
+            pop();
 
+            
+        }
+        
+    }
 }
+
+
+
 
 
 
