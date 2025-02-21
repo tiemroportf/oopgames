@@ -1,124 +1,140 @@
-var pacLives = 3;
+
 
 var l1Data;
 var walls = [];
+let yPacmanTextures = {};  
+let rPacmanTextures = {};
+let yPacX = 450;
+let yPacY = 450;
+let rPacX = 700;
+let rPacY = 700;
+let yPacLives = 3;
+let rPacLives = 3;
+let pacTextureIndex = 0; 
+let animationCounter = 0; 
+let animationDelay = 3;   
+let healed_heart;
+let broken_heart;
 
-let pacmanTextures = [];
-let pacX = 450;
-let pacY = 450;
 
 // [Up, Right, Down, Left]
-let pacSpeeds = [25,25,25,25];
+let pacSpeeds = [25, 25, 25, 25];
 let directions = ["up", "right", "down", "left"];
-let pacDirection = directions[3];
+let yPacDirection = directions[1];  
+let rPacDirection = directions[3];
 
 
 
 function preload() {
     l1Data = loadJSON('assets/level/1.json');
-    pacmanTextures = loadImage('assets/sprites/pacman/' + directions[3] +'.png');
-}
+    healed_heart = loadImage('assets/sprites/healed_heart.png');
+    
+    
+    let colors = ["yellow","red"]; 
 
+    for (let color of colors) {
+        yPacmanTextures[color] = {}; 
+        rPacmanTextures[color] = {};
+        for (let dir of directions) {
+            yPacmanTextures[color][dir] = [];
+            rPacmanTextures[color][dir] = [];
+            for (let i = 0; i < 3; i++) { 
+                let texture = loadImage(`assets/sprites/pacman/${color}/${dir}-${i}.png`);
+                yPacmanTextures[color][dir].push(texture);
+                rPacmanTextures[color][dir].push(texture);
+            }
+        }
+    }
+}
 
 function setup() {
     jsonDataToArray();
     createCanvas(windowWidth, windowHeight);
-    textAlign(CENTER,CENTER);
-    frameRate(10);
+    textAlign(CENTER, CENTER);
+    frameRate(10);  
 }
 
 function draw() {
     background(0);
-    
     if (keyIsDown(13)){
         drawRoster(100,100);
-
-    }
-    image(pacmanTextures, pacX,pacY);
-    pacX = constrain(pacX, 0, windowWidth - 25);
-    pacY = constrain(pacY, 0, windowHeight - 25);
-
-    if (keyIsDown(RIGHT_ARROW)) {
-        pacX +=pacSpeeds[1]; 
-        walls.forEach((wall) => {
-            let wx = wall.x;
-            let wy = wall.y;
-            let ww = wall.wallWidth;
-            let wh = wall.wallHeight;
-
-                        
-    
-            if (pacX + 25 > wx && pacX < wx + ww && pacY + 25 > wy && pacY < wy + wh) {
-                pacX -= pacSpeeds[1]; // Move Pac-Man back
-            }
-        });
-
-        if (pacX > 1825) {
-            pacX = 75;
-        }
-
-    }
-    if (keyIsDown(LEFT_ARROW)) {
-        pacX -=pacSpeeds[3];  
-        walls.forEach((wall) => {
-            let wx = wall.x;
-            let wy = wall.y;
-            let ww = wall.wallWidth;
-            let wh = wall.wallHeight;
-    
-            if (pacX < wx + ww && pacX + 25 > wx && pacY + 25 > wy && pacY < wy + wh) {
-                pacX += pacSpeeds[3]; // Move Pac-Man back if a collision occurs
-            }
-        });
-
-        if (pacX < 75 ) {
-            pacX = 1825;
-        }
-        
-        
-    }
-    if (keyIsDown(UP_ARROW)) {
-        pacY -=pacSpeeds[0];  
-        walls.forEach((wall) => {
-            let wx = wall.x;
-            let wy = wall.y;
-            let ww = wall.wallWidth;
-            let wh = wall.wallHeight;
-    
-            if (pacX + 25 > wx && pacX < wx + ww && pacY < wy + wh && pacY + 25 > wy) {
-                pacY += pacSpeeds[0]; // Move Pac-Man back if a collision occurs
-            }
-        });
-    }
-    if (keyIsDown(DOWN_ARROW)) { 
-        pacY +=pacSpeeds[2]; 
-        walls.forEach((wall) => {
-            let wx = wall.x;
-            let wy = wall.y;
-            let ww = wall.wallWidth;
-            let wh = wall.wallHeight;
-    
-
-            if (pacX + 25 > wx && pacX < wx + ww && pacY + 25 > wy && pacY < wy + wh) {
-                pacY -= pacSpeeds[2]; // Move Pac-Man back if a collision occurs
-            }
-        });
-    
-    
     }
 
-    
-    
-
 
     
+
+    movePacman();
+    image(yPacmanTextures["yellow"][yPacDirection][pacTextureIndex], yPacX, yPacY);
+    image(rPacmanTextures["red"][rPacDirection][pacTextureIndex], rPacX, rPacY);
+    image(yPacmanTextures["yellow"][directions[1]][1], 15, 15);
+    image(rPacmanTextures["red"][directions[1]][1], 165,15);
+    
+    drawHeart(25, 50);
+    drawHeart(25, 200);
+    
+
     push();
     for (var i = 0; i < walls.length; i++) {
-        walls[i].teken();
+        walls[i].draw();
     }
     pop();
-   
 
+    
+}
+
+
+function movePacman() {
+    let newX = yPacX;
+    let newY = yPacY;
+
+    let moving = false;  
+
+    if (keyIsDown(RIGHT_ARROW)) { 
+        newX += pacSpeeds[1]; 
+        yPacDirection = "right"; 
+        moving = true;
+    }
+    if (keyIsDown(LEFT_ARROW)) { 
+        newX -= pacSpeeds[3]; 
+        yPacDirection = "left"; 
+        moving = true;
+    }
+    if (keyIsDown(UP_ARROW)) { 
+        newY -= pacSpeeds[0]; 
+        yPacDirection = "up"; 
+        moving = true;
+    }
+    if (keyIsDown(DOWN_ARROW)) { 
+        newY += pacSpeeds[2]; 
+        yPacDirection = "down"; 
+        moving = true;
+    }
+
+    
+    if (moving) {
+        animationCounter++;
+        if (animationCounter >= animationDelay) { 
+            pacTextureIndex = (pacTextureIndex + 1) % 3; 
+            animationCounter = 0; 
+        }
+    }
+
+    if (!checkCollision(newX, newY)) {
+        yPacX = constrain(newX, 0, windowWidth - 25);
+        yPacY = constrain(newY, 0, windowHeight - 25);
+    }
+
+    
+}
+
+function checkCollision(x, y) {
+    for (let wall of walls) {
+        if (x + 25 > wall.x && x < wall.x + wall.wallWidth &&
+            y + 25 > wall.y && y < wall.y + wall.wallHeight) {
+            return true; 
+        }
+    }
+    return false; 
 }
 
 function jsonDataToArray() {
@@ -134,25 +150,22 @@ function jsonDataToArray() {
     }
 }
 
-function drawRoster(columns, rows) {
-    for (var columns = 0;columns < width;columns += 25) {
-        for (var rows = 0; rows < height; rows += 25) {
 
+function drawRoster(c, r) {
+    for (var c = 0; c < width; c += 25) {
+        for (var r = 0; r < height; r += 25) {
             push();
-            stroke(75)
+            stroke(75);
             strokeWeight(1);
             fill(0);
-            rect(columns,rows,25,25);
+            rect(c, r, 25, 25);
             pop();
-
-            
         }
-        
     }
 }
 
-
-
-
-
-
+function drawHeart(x, offset) {
+    for (var i = 0; i < 3; i++) {
+        image(healed_heart, i * x + offset, 17); // Adjust position dynamically
+    }
+}

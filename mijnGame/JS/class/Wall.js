@@ -8,7 +8,7 @@ class Wall  {
         
     }
 
-    teken() {
+    draw() {
         push();
         noFill();
         stroke('blue');
