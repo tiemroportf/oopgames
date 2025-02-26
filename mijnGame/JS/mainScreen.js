@@ -2,6 +2,7 @@ var l1Data;
 var walls = [];
 
 let pacmanTextures = {};  
+let ghostTextures = {};
 let healed_heart;
 let broken_heart;
 let animationDelay= 3;
@@ -13,7 +14,12 @@ let directions = ["up", "right", "down", "left"];
 let pacmen = {
     yellow: {x: 450 ,y: 450, lives: 3, textureIndex: 0, animationCounter: 0,  direction: directions[1]},
     red: {x: 700, y: 700, lives: 3, textureIndex: 0, animationCounter: 0,  direction: directions[3]}
-}
+};
+
+let ghosts =  {
+    green: {x: 1000, y: 450, lives: 2, textureIndex: 0, animationCounter: 0, direction: directions[0]},
+    orange: {x: 1050, y: 450, lives: 2, textureIndex: 0, animationCounter: 0, direction: directions[0]}
+};
 let controls = {};
 
 function preload() {
