@@ -1,5 +1,6 @@
 var l1Data;
 var walls = [];
+var font;
 
 let pacmanTextures = {};  
 let ghostTextures = {};
@@ -12,8 +13,8 @@ let pacSpeeds = {up: 25, right: 25, down: 25, left: 25};
 let directions = ["up", "right", "down", "left"];
 
 let pacmen = {
-    yellow: {x: 450 ,y: 450, lives: 3, textureIndex: 0, animationCounter: 0,  direction: directions[1]},
-    red: {x: 700, y: 700, lives: 3, textureIndex: 0, animationCounter: 0,  direction: directions[3]}
+    yellow: {x: 450 ,y: 450, score: 0, lives: 3, textureIndex: 0, animationCounter: 0,  direction: directions[1]},
+    red: {x: 700, y: 700, score: 0,lives: 3, textureIndex: 0, animationCounter: 0,  direction: directions[3]}
 };
 
 let ghosts =  {
@@ -25,8 +26,7 @@ let controls = {};
 function preload() {
     l1Data = loadJSON('assets/level/1.json');
     healed_heart = loadImage('assets/sprites/healed_heart.png');
-    
-    
+    font = loadFont('assets/font/Minecraft.ttf');
     
 
     let colors = ["yellow", "red"];
@@ -36,6 +36,11 @@ function preload() {
             pacmanTextures[color][dir] = Array.from({ length: 3 }, (_, i) => 
                 loadImage(`assets/sprites/pacman/${color}/${dir}-${i}.png`)
             );
+            /*
+            ghostTextures[color][dir] = Array.from( {length: 3 }, (_, i) => 
+               loadImage(`assets/sprites/ghosts/${color}/${dir}-${i}.png`)
+            );
+            */
         }
     }
 }
@@ -55,9 +60,11 @@ function setup() {
 function draw() {
     background(0);
     if (keyIsDown(13)){
-        drawRoster(100,100);
+        drawRoster();
     }
 
+ 
+    drawScore();
 
     movePacman("yellow");
     movePacman("red");
@@ -126,6 +133,13 @@ function movePacman(color) {
 function drawPacman(color) {
     let pac = pacmen[color];
     image(pacmanTextures[color][pac.direction][pac.textureIndex], pac.x, pac.y);
+}
+
+function drawScore() {
+    
+
+    let score = pacmen["yellow"].score + pacmen["red"].score;
+    text("Score: " + score, 1000, 25);
 }
 
 
