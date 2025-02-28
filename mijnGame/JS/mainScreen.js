@@ -63,6 +63,22 @@ function draw() {
         drawRoster();
     }
 
+    if (keyIsDown(79)) {
+        for (let color in pacmen) {
+
+            let pac = pacmen[color];
+
+            if (pac.lives < 0){
+                return console.error("Error: Lives can't be less or than zero!!");
+            }
+            decreaseLives(color);
+            
+        }
+        console.log(pacmen["yellow"].lives);
+        console.log(pacmen["red"].lives);
+    }
+    
+
  
     drawScore();
 
@@ -81,9 +97,17 @@ function draw() {
         image(pacmanTextures[color]["right"][pacmen[color].textureIndex], iconsX[i], iconsY);
     }
 
+    for (let color in pacmen) {
+        let pac = pacmen[color]; 
+        let startX = (color === "red") ? 200 : 50; 
+    
+        for (let i = 0; i < pac.lives; i++) {
+            let heartX = startX + (i * 30); 
+            image(healed_heart, heartX, 17); 
+        }
+    }
+    
 
-    drawHeart(25, 50);
-    drawHeart(25, 200);
     
 
     push();
@@ -94,18 +118,20 @@ function draw() {
 }
 
 function movePacman(color) {
-
     if (pacmen[color] == null) { 
         console.log("Color doesn't exist!!!")
         return;
     }
+
     let pac = pacmen[color];
     let control = controls[color];
     let newX = pac.x, newY = pac.y;
     let moving = false; 
 
     for (let dir of directions) {
-        if (keyIsDown(control[dir])){
+        let key = control[dir];
+        
+        if (keyIsDown(key) && ![98, 100, 102, 104].includes(key)) {
             if (dir == "up") newY -= pacSpeeds[dir];
             if (dir == "down") newY += pacSpeeds[dir]; 
             if (dir == "left") newX -= pacSpeeds[dir];
@@ -121,11 +147,40 @@ function movePacman(color) {
             pac.textureIndex = (pac.textureIndex + 1) % 3;
         }
     }
-    
 
     if (!checkCollision(newX, newY)) {
         pac.x = constrain(newX, 0, windowWidth - 25);
         pac.y = constrain(newY, 0, windowHeight - 25);
+
+        
+    }
+
+    if (pac.x < 75) {
+        pac.x = 1825;
+    }
+
+    if (pac.x > 1825){
+        pac.x = 75;
+    }
+
+
+
+    for (let ghostColor in ghosts) {
+
+        for (let pacColor in pacmen) {
+            let ghostX = ghosts[ghostColor].x;
+            let ghostY = ghosts[ghostColor].y;
+
+            let pacX = pacmen[pacColor].x;
+            let pacY = pacmen[pacColor].y;
+
+            if (pacX == ghostX && pacY == ghostY) {
+                decreaseLives(pacColor);
+            }
+        }
+        
+
+        
     }
     
 }
@@ -136,7 +191,6 @@ function drawPacman(color) {
 }
 
 function drawScore() {
-    
 
     let score = pacmen["yellow"].score + pacmen["red"].score;
     text("Score: " + score, 1000, 25);
@@ -183,5 +237,11 @@ function drawRoster(c, r) {
 function drawHeart(x, offset) {
     for (let i = 0; i < 3; i++) {
         image(healed_heart, i * x + offset, 17);
+    }
+}
+
+function decreaseLives(color) {
+    if (pacmen[color].lives > 0) {
+        pacmen[color].lives--;
     }
 }

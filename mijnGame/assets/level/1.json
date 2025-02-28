@@ -223,6 +223,14 @@
             },
             "width": 100,
             "height": 50
+        },
+        {
+            "location" : {
+                "x": 125,
+                "y" : 600
+            },
+            "width": 25,
+            "height": 25
         }
 
 
