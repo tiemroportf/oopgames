@@ -18,8 +18,8 @@ let pacmen = {
 };
 
 let ghosts =  {
-    green: {x: 1000, y: 450, lives: 2, textureIndex: 0, animationCounter: 0, direction: directions[0]},
-    orange: {x: 1050, y: 450, lives: 2, textureIndex: 0, animationCounter: 0, direction: directions[0]}
+    green: {x: 1000, y: 450, lives: 100, textureIndex: 0, animationCounter: 0, direction: directions[0]},
+    orange: {x: 1050, y: 450, lives: 100, textureIndex: 0, animationCounter: 0, direction: directions[0]}
 };
 let controls = {};
 
@@ -29,14 +29,24 @@ function preload() {
     font = loadFont('assets/font/Minecraft.ttf');
     
 
-    let colors = ["yellow", "red"];
-    for (let color of colors) {
+    let pacColors = ["yellow", "red"];
+    for (let color of pacColors) {
         pacmanTextures[color] = {};
         for (let dir of directions) {
             pacmanTextures[color][dir] = Array.from({ length: 3 }, (_, i) => 
                 loadImage(`assets/sprites/pacman/${color}/${dir}-${i}.png`)
             );
-            /*
+           
+        }
+    }
+
+    let ghostColors = ["orange", "green"];
+    for (let color of ghostColors) {
+        ghostTextures[color] = {};
+        for (let dir of directions) {
+
+            
+             /*
             ghostTextures[color][dir] = Array.from( {length: 3 }, (_, i) => 
                loadImage(`assets/sprites/ghosts/${color}/${dir}-${i}.png`)
             );
@@ -52,8 +62,15 @@ function setup() {
     frameRate(10);  
 
     controls = {
-        yellow: {up: 87, down: 83, left: 65, right: 68},
-        red: {up: UP_ARROW, down: DOWN_ARROW, left: LEFT_ARROW, right: RIGHT_ARROW}
+        pacmen: {
+            yellow: {up: 87, down: 83, left: 65, right: 68},
+            red: {up: UP_ARROW, down: DOWN_ARROW, left: LEFT_ARROW, right: RIGHT_ARROW} 
+        },
+        ghosts: {
+            green: {},
+            orange: {}
+        }
+        
     }
 }
 
@@ -124,7 +141,8 @@ function movePacman(color) {
     }
 
     let pac = pacmen[color];
-    let control = controls[color];
+    let type = "pacmen";
+    let control = controls[type][color];
     let newX = pac.x, newY = pac.y;
     let moving = false; 
 
@@ -155,6 +173,8 @@ function movePacman(color) {
         
     }
 
+
+
     if (pac.x < 75) {
         pac.x = 1825;
     }
@@ -182,7 +202,34 @@ function movePacman(color) {
 
         
     }
+
     
+    
+}
+
+function moveGhost(color) {
+    if (ghosts[color] == null) { 
+        return console.log("Color doesn't exist!!!");
+    }
+
+    
+    let pac = pacmen[color];
+    let type = "ghosts";
+    let control = controls[type][color];
+    let newX = pac.x, newY = pac.y;
+    let moving = false; 
+
+    for (let dir of directions) {
+        let key = control[dir];
+        if (keyIsDown(key) && ![98,100,102,104].includes(key)) {
+            if (dir == "up") newY -= pacSpeeds[dir];
+            if (dir == "down") newY += pacSpeeds[dir]; 
+            if (dir == "left") newX -= pacSpeeds[dir];
+            if (dir == "right") newX += pacSpeeds[dir];
+            pac.direction = dir;
+            moving = true;
+        }
+    }
 }
 
 function drawPacman(color) {
@@ -243,5 +290,14 @@ function drawHeart(x, offset) {
 function decreaseLives(color) {
     if (pacmen[color].lives > 0) {
         pacmen[color].lives--;
+    }
+}
+
+function endGame() {
+    for (let color of pacmen) {
+        let pac = pacmen[color];
+        if (pac.lives === 0) {
+
+        }
     }
 }
