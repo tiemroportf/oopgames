@@ -6,7 +6,7 @@ let pacmanTextures = {};
 let ghostTextures = {};
 let healed_heart;
 let broken_heart;
-let animationDelay= 3;
+let animationDelay = 3;
 
 
 let pacSpeeds = {up: 25, right: 25, down: 25, left: 25};
@@ -15,8 +15,8 @@ let ghostSpeeds = {up: 25, right: 25, down: 25, left: 25};
 let directions = ["up", "right", "down", "left"];
 
 let pacmen = {
-    yellow: {x: 450 ,y: 450, score: 0, lives: 3, textureIndex: 0, animationCounter: 0,  direction: directions[1]},
-    red: {x: 700, y: 700, score: 0,lives: 3, textureIndex: 0, animationCounter: 0,  direction: directions[3]}
+    yellow: {x: 450 ,y: 450, score: 0, lives: 3, textureIndex: 0, animationCounter: 0,  direction: directions[1], lastHitTime: {}, canMove: true},
+    red: {x: 700, y: 700, score: 0,lives: 3, textureIndex: 0, animationCounter: 0,  direction: directions[3], lastHitTime: {}, canMove: true}
 };
 
 let ghosts =  {
@@ -139,7 +139,7 @@ function draw() {
     walls.forEach(wall => wall.draw());
     pop();
 
-    
+    endGame();
 }
 
 function movePacman(color) {
@@ -157,13 +157,17 @@ function movePacman(color) {
     for (let dir of directions) {
         let key = control[dir];
         
-        if (keyIsDown(key) && ![98, 100, 102, 104].includes(key)) {
+        if (keyIsDown(key) && ![98, 100, 102, 104].includes(key) && pac.canMove) {
             if (dir == "up") newY -= pacSpeeds[dir];
             if (dir == "down") newY += pacSpeeds[dir]; 
             if (dir == "left") newX -= pacSpeeds[dir];
             if (dir == "right") newX += pacSpeeds[dir];
             pac.direction = dir;
             moving = true;
+        }
+
+        if (pac.lives === 0) {
+            pac.canMove = false;
         }
     }
 
@@ -181,34 +185,23 @@ function movePacman(color) {
         
     }
 
-
-
-    if (pac.x < 75) {
-        pac.x = 1825;
-    }
-
+    if (pac.x < 75) pac.x = 1825;
     if (pac.x > 1825){
         pac.x = 75;
     }
 
-
-
     for (let ghostColor in ghosts) {
+        let ghost = ghosts[ghostColor];
+        let now = millis(); // Get current time
 
-        for (let pacColor in pacmen) {
-            let ghostX = ghosts[ghostColor].x;
-            let ghostY = ghosts[ghostColor].y;
+        if (!pac.lastHitTime[ghostColor]) pac.lastHitTime[ghostColor] = 0;
 
-            let pacX = pacmen[pacColor].x;
-            let pacY = pacmen[pacColor].y;
-
-            if (pacX == ghostX && pacY == ghostY) {
-                decreaseLives(pacColor);
-            }
+        let touching = dist(pac.x, pac.y, ghost.x, ghost.y) < 25;
+        
+        if (touching && now - pac.lastHitTime[ghostColor] > 1000) {
+            pac.lastHitTime[ghostColor] = now;
+            decreaseLives(color);
         }
-        
-
-        
     }
 
     
@@ -308,16 +301,20 @@ function drawHeart(x, offset) {
 }
 
 function decreaseLives(color) {
-    if (pacmen[color].lives > 0) {
-        pacmen[color].lives--;
+
+    let pac = pacmen[color];
+    if (pac.lives > 0) {
+        pac.lives--;
     }
+
+
 }
 
 function endGame() {
-    for (let color of pacmen) {
-        let pac = pacmen[color];
-        if (pac.lives === 0) {
+    let bothDead = Object.values(pacmen).every(pac => pac.lives === 0);
 
-        }
+    if (bothDead) {
+        console.log("Game Over! Both Pacmen are out of lives.");
+        noLoop(); // Stops the draw loop, freezing the game
     }
 }
