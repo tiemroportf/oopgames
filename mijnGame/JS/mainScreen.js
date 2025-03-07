@@ -10,6 +10,8 @@ let animationDelay= 3;
 
 
 let pacSpeeds = {up: 25, right: 25, down: 25, left: 25};
+let ghostSpeeds = {up: 25, right: 25, down: 25, left: 25};
+
 let directions = ["up", "right", "down", "left"];
 
 let pacmen = {
@@ -18,8 +20,8 @@ let pacmen = {
 };
 
 let ghosts =  {
-    green: {x: 1000, y: 450, lives: 100, textureIndex: 0, animationCounter: 0, direction: directions[0]},
-    orange: {x: 1050, y: 450, lives: 100, textureIndex: 0, animationCounter: 0, direction: directions[0]}
+    green: {x: 1000, y: 500, lives: 100, textureIndex: 0, animationCounter: 0, direction: directions[0]},
+    orange: {x: 1050, y: 500, lives: 100, textureIndex: 0, animationCounter: 0, direction: directions[0]}
 };
 let controls = {};
 
@@ -46,11 +48,11 @@ function preload() {
         for (let dir of directions) {
 
             
-             /*
-            ghostTextures[color][dir] = Array.from( {length: 3 }, (_, i) => 
+             
+            ghostTextures[color][dir] = Array.from( {length: 1 }, (_, i) => 
                loadImage(`assets/sprites/ghosts/${color}/${dir}-${i}.png`)
             );
-            */
+            
         }
     }
 }
@@ -67,8 +69,8 @@ function setup() {
             red: {up: UP_ARROW, down: DOWN_ARROW, left: LEFT_ARROW, right: RIGHT_ARROW} 
         },
         ghosts: {
-            green: {},
-            orange: {}
+            green: {up: 104, down: 98, left: 100, right: 102},
+            orange: {up: 73, down: 75, left: 74, right: 76}
         }
         
     }
@@ -102,8 +104,14 @@ function draw() {
     movePacman("yellow");
     movePacman("red");
 
+    moveGhost("green");
+    moveGhost("orange");
+
     drawPacman("yellow");
     drawPacman("red");
+
+    drawGhost("green");
+    drawGhost("orange");
 
     let iconsX = [20, 170]; 
     let iconsY = 17;  
@@ -213,28 +221,40 @@ function moveGhost(color) {
     }
 
     
-    let pac = pacmen[color];
+    let ghost = ghosts[color];
     let type = "ghosts";
     let control = controls[type][color];
-    let newX = pac.x, newY = pac.y;
+    let newX = ghost.x, newY = ghost.y;
     let moving = false; 
 
     for (let dir of directions) {
         let key = control[dir];
-        if (keyIsDown(key) && ![98,100,102,104].includes(key)) {
-            if (dir == "up") newY -= pacSpeeds[dir];
-            if (dir == "down") newY += pacSpeeds[dir]; 
-            if (dir == "left") newX -= pacSpeeds[dir];
-            if (dir == "right") newX += pacSpeeds[dir];
-            pac.direction = dir;
+        if (keyIsDown(key) && ![UP_ARROW, DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW].includes(key)) {
+            if (dir == "up") newY -= ghostSpeeds[dir];
+            if (dir == "down") newY += ghostSpeeds[dir]; 
+            if (dir == "left") newX -= ghostSpeeds[dir];
+            if (dir == "right") newX += ghostSpeeds[dir];
+            ghost.direction = dir;
             moving = true;
         }
+    }
+
+    
+
+    if (!checkCollision(newX, newY)) {
+        ghost.x = constrain(newX, 0, windowWidth - 25);
+        ghost.y = constrain(newY, 0, windowHeight - 25);
     }
 }
 
 function drawPacman(color) {
     let pac = pacmen[color];
     image(pacmanTextures[color][pac.direction][pac.textureIndex], pac.x, pac.y);
+}
+
+function drawGhost(color) {
+    let ghost = ghosts[color];
+    image(ghostTextures[color][ghost.direction][ghost.textureIndex], ghost.x, ghost.y);
 }
 
 function drawScore() {
