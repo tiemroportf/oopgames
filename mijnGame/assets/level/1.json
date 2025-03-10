@@ -124,10 +124,10 @@
         {
             "location": {
                 "x": 1800,
-                "y": 650
+                "y": 625
             },
             "width": 25,
-            "height": 175
+            "height": 200
 
         },
         {
@@ -227,11 +227,55 @@
         {
             "location" : {
                 "x": 125,
-                "y" : 600
+                "y" : 300
+            },
+            "width": 25,
+            "height": 350
+        },
+        {
+            "location" : {
+                "x": 100,
+                "y": 300
+            },
+            "width": 25,
+            "height": 25
+        },
+        {
+            "location" : {
+                "x": 100,
+                "y": 625
+            },
+            "width": 25,
+            "height": 25
+        },
+        
+
+
+        {
+            "location" : {
+                "x": 1775,
+                "y" : 300
+            },
+            "width": 25,
+            "height": 350
+        },
+        {
+            "location" : {
+                "x": 100,
+                "y": 300
+            },
+            "width": 25,
+            "height": 25
+        },
+        {
+            "location" : {
+                "x": 100,
+                "y": 625
             },
             "width": 25,
             "height": 25
         }
+
 
 
 
