@@ -41,6 +41,9 @@ function preload() {
             );
            
         }
+        pacmanTextures[color]["death"] = Array.from({ length: 2 }, (_, i) => 
+            loadImage(`assets/sprites/pacman/${color}/d-${i}.png`)
+        );
     }
 
     let ghostColors = ["orange", "green"];
@@ -81,6 +84,8 @@ function setup() {
 
 function draw() {
 
+    
+
     background(0);
     if (keyIsDown(13)){
         drawRoster();
@@ -104,18 +109,18 @@ function draw() {
     }
     
     drawPoints();
+
+    for (let color in pacmen) {
+        drawPacman(color);
+        movePacman(color);
+    }
+
+    for (let color in ghosts) {
+        drawGhost(color);
+        moveGhost(color);
+    }
  
-    drawPacman("yellow");
-    drawPacman("red");
-
-    drawGhost("green");
-    drawGhost("orange");
-
-    movePacman("yellow");
-    movePacman("red");
-
-    moveGhost("green");
-    moveGhost("orange");
+ 
 
 
     let iconsX = [20, 170]; 
@@ -144,9 +149,38 @@ function draw() {
     walls.forEach(wall => wall.draw());
     pop();
 
+
+    checkPacGhostCollision();
     endGame();
 }
 
+function pacDeathAnim() {
+    for (let pacColor in pacmen) {
+        let pac = pacmen[color];
+
+    }
+}
+
+
+
+function checkPacGhostCollision() {
+    for (let pacColor in pacmen) {
+        let pac = pacmen[pacColor];
+        for (let ghostColor in ghosts) {
+            let ghost = ghosts[ghostColor];
+            let now = millis();
+
+            if (!pac.lastHitTime[ghostColor]) pac.lastHitTime[ghostColor] = 0;
+
+            let touching = dist(pac.x, pac.y, ghost.x, ghost.y) < 25;
+
+            if (touching && now - pac.lastHitTime[ghostColor] > 1000) {
+                pac.lastHitTime[ghostColor] = now;
+                decreaseLives(pacColor);
+            }
+        }
+    }
+}
 function movePacman(color) {
     if (pacmen[color] == null) { 
         console.log("Color doesn't exist!!!")
@@ -195,19 +229,7 @@ function movePacman(color) {
         pac.x = 75;
     }
 
-    for (let ghostColor in ghosts) {
-        let ghost = ghosts[ghostColor];
-        let now = millis(); // Get current time
 
-        if (!pac.lastHitTime[ghostColor]) pac.lastHitTime[ghostColor] = 0;
-
-        let touching = dist(pac.x, pac.y, ghost.x, ghost.y) < 25;
-        
-        if (touching && now - pac.lastHitTime[ghostColor] > 1000) {
-            pac.lastHitTime[ghostColor] = now;
-            decreaseLives(color);
-        }
-    }
 
     
     
@@ -310,8 +332,8 @@ function drawHeart(x, offset) {
 function drawPoints() {
     for (let point of points) {
         if (!point.isCollected) {
-            fill(255, 255, 0); // Yellow points
-            ellipse(point.x, point.y, 5, 5); // Small dot centered in grid
+            fill(255, 255, 0); 
+            ellipse(point.x, point.y, 5, 5); 
         }
     }
 }
@@ -319,7 +341,7 @@ function drawPoints() {
 function setupPoints() {
     for (let x = 75; x <= 1875; x += 25) {
         for (let y = 50; y <= windowHeight -25; y += 25) {
-            if (validatePointPos(x, y)) { // Only draw if it's a valid spot
+            if (validatePointPos(x, y)) { 
                 points.push({ x: x + 12, y: y + 12, isCollected: false });
             }
         }
@@ -327,28 +349,23 @@ function setupPoints() {
 }
 
 function validatePointPos(x, y) {
-    // Define map boundaries
     let minX = 75, minY = 50;
-    let maxX = windowWidth - 75, maxY = windowHeight - 25;
+    let maxX = windowWidth - 75, maxY = windowHeight - 100;
 
-    // Check if outside the map
     if (x < minX || x > maxX || y < minY || y > maxY) {
         return false; 
     }
 
-    
-
-    // Check if it's inside a wall
-    for (let wall of walls) {
+        for (let wall of walls) {
         if (
             x >= wall.x && x < wall.x + wall.wallWidth &&
             y >= wall.y && y < wall.y + wall.wallHeight
         ) {
-            return false; // The position is inside a wall
+            return false; 
         }
     }
 
-    return true; // The position is valid
+    return true; 
 }
 
 function validatePointCollection() {
@@ -356,12 +373,14 @@ function validatePointCollection() {
     for (let color of pacColors) {
         let pac = pacmen[color]
         for (let point of points) {
-            if (!point.isCollected && dist(pac.x, pac.y, point.x, point.y) < 25) {
-                point.isCollected = true;
-                pac.score += 10;
-            
 
+            
+            if (!point.isCollected && dist(pac.x, pac.y, pac.y + 13, pac.y + 13) < 25) {
+                    point.isCollected = true;
+                    pac.score += 10;
             }
+            
+           
         }
     }
     
@@ -379,18 +398,19 @@ function decreaseLives(color) {
 
 function endGame() {
     let bothDead = Object.values(pacmen).every(pac => pac.lives === 0);
+    let totalScore = Object.values(pacmen).reduce((sum, pac) => sum + pac.score, 0);
 
     if (bothDead) {
         
         
-        noLoop(); // Stops the draw loop, freezing the game
-        filter(BLUR, 5); // Apply blur effect when both Pacmen are dead
+        noLoop(); 
+        filter(BLUR, 5); 
         textSize(50);
         fill(255, 0, 0);
         textFont(font);
         text("GAME OVER", width / 2, height / 2);
         textSize(35);
-        text("FINAL SCORE: ", width/2, height / 2 + 40);
+        text("FINAL SCORE: " + totalScore, width/2, height / 2 + 40);
     }
 }
 
