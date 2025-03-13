@@ -2,6 +2,8 @@ var l1Data;
 var walls = [];
 var font;
 
+let gameStarted = false;
+
 let pacmanTextures = {};  
 let ghostTextures = {};
 let healed_heart;
@@ -65,6 +67,7 @@ function setup() {
     jsonDataToArray();
     createCanvas(windowWidth, windowHeight);
     textAlign(CENTER, CENTER);
+    textFont(font);
     frameRate(10);  
 
     controls = {
@@ -90,7 +93,7 @@ function draw() {
     if (keyIsDown(13)){
         drawRoster();
     }
-    drawScore();
+    drawTelemetry();
 
 
     if (keyIsDown(79)) {
@@ -279,10 +282,14 @@ function drawGhost(color) {
     image(ghostTextures[color][ghost.direction][ghost.textureIndex], ghost.x, ghost.y);
 }
 
-function drawScore() {
+function drawTelemetry() {
 
     let score = pacmen["yellow"].score + pacmen["red"].score;
-    text("Score: "  + score, 1000, 25);
+    fill(255);
+    textSize(40);
+    text("Score: "  + score, 925, 25);
+
+
 }
 
 
@@ -348,43 +355,9 @@ function setupPoints() {
     }
 }
 
-function validatePointPos(x, y) {
-    let minX = 75, minY = 50;
-    let maxX = windowWidth - 75, maxY = windowHeight - 100;
 
-    if (x < minX || x > maxX || y < minY || y > maxY) {
-        return false; 
-    }
 
-        for (let wall of walls) {
-        if (
-            x >= wall.x && x < wall.x + wall.wallWidth &&
-            y >= wall.y && y < wall.y + wall.wallHeight
-        ) {
-            return false; 
-        }
-    }
 
-    return true; 
-}
-
-function validatePointCollection() {
-    let pacColors = ["yellow", "red"];
-    for (let color of pacColors) {
-        let pac = pacmen[color]
-        for (let point of points) {
-
-            
-            if (!point.isCollected && dist(pac.x, pac.y, pac.y + 13, pac.y + 13) < 25) {
-                    point.isCollected = true;
-                    pac.score += 10;
-            }
-            
-           
-        }
-    }
-    
-}
 
 function decreaseLives(color) {
 
@@ -413,10 +386,3 @@ function endGame() {
         text("FINAL SCORE: " + totalScore, width/2, height / 2 + 40);
     }
 }
-
-
-
-
-
-
-
