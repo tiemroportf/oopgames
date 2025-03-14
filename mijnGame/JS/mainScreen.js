@@ -1,6 +1,12 @@
-var l1Data;
-var walls = [];
-var font;
+let l1Data;
+let walls = [];
+let font;
+let gui;
+let sbtn;
+
+let startTime = 0;
+let elapsedTime = 0;
+let stopwatchRunning = false;
 
 let gameStarted = false;
 
@@ -43,7 +49,7 @@ function preload() {
             );
            
         }
-        pacmanTextures[color]["death"] = Array.from({ length: 2 }, (_, i) => 
+        pacmanTextures[color]["death"] = Array.from({ length: 3 }, (_, i) => 
             loadImage(`assets/sprites/pacman/${color}/d-${i}.png`)
         );
     }
@@ -82,79 +88,96 @@ function setup() {
         
     }
     setupPoints();
+    gui = createGui();
 
+    sbtn = createButton("Start Game", windowWidth / 2, windowHeight / 2, 200, 50);
 }
 
 function draw() {
-
-    
-
     background(0);
     if (keyIsDown(13)){
         drawRoster();
     }
-    drawTelemetry();
+    drawGui();
+    sbtn.setStyle("fillBg", color(255, 0, 0));
+    sbtn.setStyle("font", font);
 
-
-    if (keyIsDown(79)) {
-        for (let color in pacmen) {
-
-            let pac = pacmen[color];
-
-            if (pac.lives < 0){
-                return console.error("Error: Lives can't be less or than zero!!");
-            }
-            decreaseLives(color);
+    if (!gameStarted) {
+        if (sbtn.isPressed) { 
+            gameStarted = true;
+            sbtn.visible = false;
+            startStopwatch();
             
         }
-        console.log(pacmen["yellow"].lives);
-        console.log(pacmen["red"].lives);
-    }
+
+    } else {
+        drawTelemetry();
+        
+        if (keyIsDown(79)) {
+            for (let color in pacmen) {
     
-    drawPoints();
-
-    for (let color in pacmen) {
-        drawPacman(color);
-        movePacman(color);
-    }
-
-    for (let color in ghosts) {
-        drawGhost(color);
-        moveGhost(color);
-    }
- 
- 
-
-
-    let iconsX = [20, 170]; 
-    let iconsY = 17;  
-    let colors = ["yellow", "red"];
-
-    for (let i = 0; i < colors.length; i++) {
-        let color = colors[i];
-        image(pacmanTextures[color]["right"][pacmen[color].textureIndex], iconsX[i], iconsY);
-    }
-
-    for (let color in pacmen) {
-        let pac = pacmen[color]; 
-        let startX = (color === "red") ? 200 : 50; 
+                let pac = pacmen[color];
     
-        for (let i = 0; i < pac.lives; i++) {
-            let heartX = startX + (i * 30); 
-            image(healed_heart, heartX, 17); 
+                if (pac.lives < 0){
+                    return console.error("Error: Lives can't be less or than zero!!");
+                }
+                decreaseLives(color);
+                
+            }
+            console.log(pacmen["yellow"].lives);
+            console.log(pacmen["red"].lives);
         }
+        
+        drawPoints();
+    
+        for (let color in pacmen) {
+            drawPacman(color);
+            movePacman(color);
+        }
+    
+        for (let color in ghosts) {
+            drawGhost(color);
+            moveGhost(color);
+        }
+     
+     
+    
+    
+        let iconsX = [20, 170]; 
+        let iconsY = 17;  
+        let colors = ["yellow", "red"];
+    
+        for (let i = 0; i < colors.length; i++) {
+            let color = colors[i];
+            image(pacmanTextures[color]["right"][pacmen[color].textureIndex], iconsX[i], iconsY);
+        }
+    
+        for (let color in pacmen) {
+            let pac = pacmen[color]; 
+            let startX = (color === "red") ? 200 : 50; 
+        
+            for (let i = 0; i < pac.lives; i++) {
+                let heartX = startX + (i * 30); 
+                image(healed_heart, heartX, 17); 
+            }
+        }
+        
+    
+        if (stopwatchRunning) {
+            elapsedTime = millis() - startTime;
+        }
+    
+        push();
+        walls.forEach(wall => wall.draw());
+        pop();
+    
+    
+        checkPacGhostCollision();
+        endGame();
     }
-    
 
-    
-
-    push();
-    walls.forEach(wall => wall.draw());
-    pop();
-
-
-    checkPacGhostCollision();
-    endGame();
+   
+   
 }
 
 function pacDeathAnim() {
@@ -287,7 +310,13 @@ function drawTelemetry() {
     let score = pacmen["yellow"].score + pacmen["red"].score;
     fill(255);
     textSize(40);
-    text("Score: "  + score, 925, 25);
+    text("Score: "  + score, width - 1175, 25);
+
+    displayStopwatch();
+    
+
+ 
+    
 
 
 }
@@ -384,5 +413,10 @@ function endGame() {
         text("GAME OVER", width / 2, height / 2);
         textSize(35);
         text("FINAL SCORE: " + totalScore, width/2, height / 2 + 40);
+        text("TIME SURVIVED: " + 0, width / 2, height / 2 + 80,);
     }
+}
+
+function startGame() {
+
 }
