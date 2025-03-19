@@ -5,6 +5,8 @@ function startStopwatch() {
     }
 }
 
+
+
 function displayStopwatch() {
     let totalMilliseconds = elapsedTime;
     let minutes = floor(totalMilliseconds / 60000); 
@@ -15,5 +17,8 @@ function displayStopwatch() {
 
     fill(255);
     textSize(40);
-    text(`Time survived: ${nf(minutes, 2)}:${nf(seconds, 2)}:${formattedMilliseconds}`, width - 800, 50);
+    textFont(font);
+    text(`Time survived: ${nf(minutes, 2)}:${nf(seconds, 2)}:${formattedMilliseconds}`, width - 800, 25);
+
+    
 }
