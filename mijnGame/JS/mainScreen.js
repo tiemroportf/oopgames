@@ -10,6 +10,7 @@ let stopwatchRunning = false;
 
 let gameStarted = false;
 
+
 let pacmanTextures = {};  
 let ghostTextures = {};
 let healed_heart;
@@ -89,9 +90,11 @@ function setup() {
     }
     setupPoints();
     gui = createGui();
+    gui.loadStyle("TerminalYellow");
+
 
     sbtn = createButton("Start Game", width / 2 - 130, height / 2, 200, 50);
-    ebtn = createButton("End Game", width / 2, height / 2 + 80);
+    ebtn = createButton("End Game", width / 2 - 75, height / 2 + 90);
 }
 
 function draw() {
@@ -103,18 +106,16 @@ function draw() {
     drawGui();
     registerUI();
 
+    
 
     if (!gameStarted) {
-        if (sbtn.isPressed) { 
-            gameStarted = true;
-            sbtn.visible = false;
-            
-            startStopwatch();
-        }
-    } else {
-        drawTelemetry();
+        return;
+    }else {
         startGame();
+        startStopwatch();
     }
+   
+    
 
 }
 

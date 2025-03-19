@@ -5,7 +5,8 @@ function endGame() {
     if (bothDead) {
         
         
-        noLoop(); 
+        
+        
         filter(BLUR, 5); 
         textSize(50);
         fill(255, 0, 0);
@@ -24,19 +25,35 @@ function endGame() {
         text(`TIME SURVIVED: ${nf(minutes, 2)}:${nf(seconds, 2)}:${formattedMilliseconds}`, width / 2, height / 2 + 70);
 
         stopwatchRunning = false;
-        
+        ebtn.visible = true;
     }
 }
 
 function registerUI() {
-    
-    sbtn.setStyle("fillBg", color(255, 255, 0));
+
+    ebtn.visible = false;
+  
     sbtn.setStyle("font", font);
-    
+    ebtn.onPress = function() {
+        
+        gameStarted = false;
+        sbtn.visible = true;
+        ebtn.visible = false;
+
+        
+    }
+
+    sbtn.onPress = function() {
+        gameStarted = true;
+        sbtn.visible = false;
+        ebtn.visible = false;
+
+    }
 
 }
 
 function startGame() {
+    drawTelemetry();
     if (keyIsDown(79)) {
         for (let color in pacmen) {
 
