@@ -274,7 +274,24 @@
             },
             "width": 25,
             "height": 25
+        },
+        {
+            "location" : {
+                "x": 175,
+                "y": 100
+            },
+            "width": 25,
+            "height": 250
+        },
+        {
+            "location" : {
+                "x": 200,
+                "y": 125
+            },
+            "width": 250,
+            "height": 25
         }
+
 
 
 

@@ -5,7 +5,7 @@ function endGame() {
     if (bothDead) {
         
         
-        
+        noLoop();
         
         filter(BLUR, 5); 
         textSize(50);

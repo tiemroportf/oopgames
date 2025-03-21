@@ -31,7 +31,7 @@ function movePacman(color) {
     for (let dir of directions) {
         let key = control[dir];
         
-        if (keyIsDown(key) && ![98, 100, 102, 104].includes(key) && pac.canMove) {
+        if (keyIsDown(key) && pac.canMove) {
             if (dir == "up") newY -= pacSpeeds[dir];
             if (dir == "down") newY += pacSpeeds[dir]; 
             if (dir == "left") newX -= pacSpeeds[dir];
@@ -60,13 +60,11 @@ function movePacman(color) {
     }
 
     if (pac.x < 75) pac.x = 1825;
-    if (pac.x > 1825){
-        pac.x = 75;
-    }
+    if (pac.x > 1825) pac.x = 75;
 
 
 
-    
+    validatePointCollection();
     
 }
 
@@ -84,7 +82,7 @@ function moveGhost(color) {
 
     for (let dir of directions) {
         let key = control[dir];
-        if (keyIsDown(key) && ![UP_ARROW, DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW].includes(key)) {
+        if (keyIsDown(key)) {
             if (dir == "up") newY -= ghostSpeeds[dir];
             if (dir == "down") newY += ghostSpeeds[dir]; 
             if (dir == "left") newX -= ghostSpeeds[dir];
@@ -101,7 +99,6 @@ function moveGhost(color) {
         ghost.y = constrain(newY, 0, windowHeight - 25);
     }
 
-    validatePointCollection();
 }
 
 

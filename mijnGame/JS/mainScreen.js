@@ -10,6 +10,7 @@ let stopwatchRunning = false;
 
 let gameStarted = false;
 
+let maxPoints = 0;
 
 let pacmanTextures = {};  
 let ghostTextures = {};
@@ -80,11 +81,11 @@ function setup() {
     controls = {
         pacmen: {
             yellow: {up: 87, down: 83, left: 65, right: 68},
-            red: {up: UP_ARROW, down: DOWN_ARROW, left: LEFT_ARROW, right: RIGHT_ARROW} 
+            red: {up: 73, down: 75, left: 74, right: 76} 
         },
         ghosts: {
-            green: {up: 104, down: 98, left: 100, right: 102},
-            orange: {up: 73, down: 75, left: 74, right: 76}
+            green: {up: 104, down: 101, left: 100, right: 102},
+            orange: {up: UP_ARROW, down: DOWN_ARROW, left: LEFT_ARROW, right: RIGHT_ARROW}
         }
         
     }
@@ -115,6 +116,9 @@ function draw() {
         startStopwatch();
     }
    
+    for (let point in points) {
+        
+    }
     
 
 }
