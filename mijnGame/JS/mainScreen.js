@@ -109,13 +109,16 @@ function draw() {
     
 
     if (!gameStarted) {
+        
         return;
     }else {
         startGame();
         startStopwatch();
     }
    
-    
+    if (ebtn.visible) {
+        ebtn.draw(); // 🔥 Forces it to stay on top and remain interactive
+    }
 
 }
 

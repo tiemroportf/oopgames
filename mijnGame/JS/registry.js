@@ -1,10 +1,15 @@
+let blurAmount = 0;
+
+
 function endGame() {
     let bothDead = Object.values(pacmen).every(pac => pac.lives === 0);
     let totalScore = Object.values(pacmen).reduce((sum, pac) => sum + pac.score, 0);
 
     if (bothDead) {
         
-        
+        if (blurAmount < 5) {
+            blurAmount += 0.3; // Adjust speed if needed
+        }
         
         
         filter(BLUR, 5); 
@@ -25,7 +30,9 @@ function endGame() {
         text(`TIME SURVIVED: ${nf(minutes, 2)}:${nf(seconds, 2)}:${formattedMilliseconds}`, width / 2, height / 2 + 70);
 
         stopwatchRunning = false;
+        ebtn.draw();  
         ebtn.visible = true;
+
     }
 }
 
