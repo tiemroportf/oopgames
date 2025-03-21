@@ -7,10 +7,15 @@ function endGame() {
 
     if (bothDead) {
         
+
         if (blurAmount < 5) {
             blurAmount += 0.3; // Adjust speed if needed
         }
         
+
+        
+        noLoop();
+
         
         filter(BLUR, 5); 
         textSize(50);
