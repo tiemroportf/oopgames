@@ -7,8 +7,18 @@ function validatePointPos(x, y) {
     }
 
     for (let wall of walls) {
-        if (x >= wall.x && x < wall.x + wall.wallWidth && y >= wall.y && y < wall.y + wall.wallHeight) {
-            return false; 
+        if (wall.isSegmented && Array.isArray(wall.segments)) {
+            for (let segment of wall.segments) {
+                if (x >= segment.x && x < segment.x + segment.width &&
+                    y >= segment.y && y < segment.y + segment.height) {
+                    return false; 
+                }
+            }
+        } else {
+            if (x >= wall.x && x < wall.x + wall.width &&
+                y >= wall.y && y < wall.y + wall.height) {
+                return false; 
+            }
         }
     }
 

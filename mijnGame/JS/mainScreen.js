@@ -8,9 +8,9 @@ let startTime = 0;
 let elapsedTime = 0;
 let stopwatchRunning = false;
 
-let gameStarted = false;
+let gameStarted = true;
 
-let maxPoints = 0;
+
 
 let pacmanTextures = {};  
 let ghostTextures = {};
@@ -35,6 +35,8 @@ let ghosts =  {
 };
 let controls = {};
 let points = [];
+
+
 
 function preload() {
     l1Data = loadJSON('assets/level/1.json');
@@ -117,9 +119,7 @@ function draw() {
         startStopwatch();
     }
    
-    if (ebtn.visible) {
-        ebtn.draw(); // 🔥 Forces it to stay on top and remain interactive
-    }
+    
 
 }
 
@@ -130,17 +130,43 @@ function pacDeathAnim() {
 }
 
 function jsonDataToArray() {
-    var wall,x,y,wallWidth, wallHeight;
     var wallData = l1Data['walls'];
-    for (var i = 0; i < wallData.length; i++) {
-        wall = wallData[i];
-        x = wall['location']['x'];
-        y = wall['location']['y'];
-        wallWidth = wall['width'];
-        wallHeight = wall['height'];
-        walls.push(new Wall(x, y, wallWidth, wallHeight));
+    for (let i = 0; i < wallData.length; i++) {
+        let wall = wallData[i];
+        let x = wall['location']['x'];
+        let y = wall['location']['y'];
+        let w = wall['width'];
+        let h = wall['height'];
+        let thickness = wall['thickness'] || 25;
+        let rotation = wall.hasOwnProperty("rotation") ? wall["rotation"] : 0;
+        
+        let newWall;
+
+        if (wall.hasOwnProperty("type")) {
+            switch (wall["type"]) {
+                case "L":
+                    newWall = drawLShapeWall(x, y, w, h, thickness, rotation);
+                    break;
+                case "T":
+                    newWall = drawTShapeWall(x, y, w, h, thickness, rotation);
+                    break;
+                case "Square":
+                    newWall = drawSquareWall(x, y, w); 
+                    break;
+                default:
+                    console.warn(`Unknown wall type: ${wall["type"]}`);
+                    newWall = new Wall(x, y, w, h);
+            }
+        } else {
+            newWall = new Wall(x, y, w, h);
+        }
+
+        walls.push(newWall);
     }
 }
+
+
+
 
 
 function setupPoints() {

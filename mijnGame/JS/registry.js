@@ -5,17 +5,17 @@ function endGame() {
     let bothDead = Object.values(pacmen).every(pac => pac.lives === 0);
     let totalScore = Object.values(pacmen).reduce((sum, pac) => sum + pac.score, 0);
 
-    if (bothDead) {
+    let maxPoints = points.length * 10;
+    if (bothDead || totalScore >= maxPoints) {
         
-
         if (blurAmount < 5) {
             blurAmount += 0.3; // Adjust speed if needed
         }
         
-
+    
         
         noLoop();
-
+    
         
         filter(BLUR, 5); 
         textSize(50);
@@ -24,14 +24,14 @@ function endGame() {
         text("GAME OVER", width / 2, height / 2);
         textSize(25);
         text("FINAL SCORE: " + totalScore, width/2, height / 2 + 40);
-
-
+    
+    
         let totalMilliseconds = elapsedTime;
         let minutes = floor(totalMilliseconds / 60000);
         let seconds = floor((totalMilliseconds % 60000) / 1000);
         let milliseconds = nf(totalMilliseconds % 1000, 3);
         let formattedMilliseconds = milliseconds.substring(0, 2); 
-
+    
         text(`TIME SURVIVED: ${nf(minutes, 2)}:${nf(seconds, 2)}:${formattedMilliseconds}`, width / 2, height / 2 + 70);
 
         stopwatchRunning = false;
@@ -39,9 +39,14 @@ function endGame() {
         ebtn.visible = true;
 
     }
+
+   
+   
 }
+    
 
 function registerUI() {
+    
 
     ebtn.visible = false;
   
@@ -121,7 +126,10 @@ function startGame() {
     }
 
     push();
-    walls.forEach(wall => wall.draw());
+    walls.forEach(wall => {
+        
+        wall.draw();
+    });
     pop();
 
 

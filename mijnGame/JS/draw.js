@@ -44,3 +44,66 @@ function drawPoints() {
         }
     }
 }
+
+function drawLShapeWall(x, y, width, height, thickness, rotation = 0) {
+    let wall = new Wall(x, y, width, height, true);
+
+    switch (rotation % 360) {
+        
+        case 0 : 
+            wall.addSegment(x, y, thickness, height);
+
+            wall.addSegment(x, y + height - thickness, width, thickness);
+            break;
+        case 90: 
+            wall.addSegment(x + width - thickness, y, thickness, height);
+
+            wall.addSegment(x,y, width, thickness);
+            break;
+        case 180: 
+            wall.addSegment(x + width - thickness, y, thickness, height);
+
+            wall.addSegment(x, y + height - thickness, width, thickness);
+            break;
+        case 270: 
+            wall.addSegment(x, y, thickness, height);
+
+            wall.addSegment(x, y, width, thickness);
+            break;
+    }
+    
+    
+
+    return wall;
+}
+
+function drawTShapeWall(x, y, width, height, thickness, rotation = 0) {
+    let wall = new Wall(x, y, width, height, true);
+
+    switch (rotation % 360) {
+        case 0:   
+            wall.addSegment(x, y, width, thickness);
+            wall.addSegment(x + (width / 2) - (thickness / 2), y, thickness, height);
+            break;
+        case 90: 
+            wall.addSegment(x, y, thickness, height);
+            wall.addSegment(x, y + (height / 2) - (thickness / 2), width, thickness);
+            break;
+        case 180: 
+            wall.addSegment(x, y + height - thickness, width, thickness);
+            wall.addSegment(x + (width / 2) - (thickness / 2), y, thickness, height);
+            break;
+        case 270: 
+            wall.addSegment(x + width - thickness, y, thickness, height);
+            wall.addSegment(x, y + (height / 2) - (thickness / 2), width, thickness);
+            break;
+    }
+
+    return wall;
+}
+
+
+function drawSquareWall(x, y, size) {
+    return new Wall(x, y, size, size);
+}
+
