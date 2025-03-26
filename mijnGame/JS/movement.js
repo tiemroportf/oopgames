@@ -91,6 +91,9 @@ function moveGhost(color) {
         ghost.x = constrain(newX, 0, windowWidth - 25);
         ghost.y = constrain(newY, 0, windowHeight - 25);
     }
+
+    if (ghost.x < 75) ghost.x = 1825;
+    if (ghost.x > 1825) ghost.x = 75;
 }
 
 

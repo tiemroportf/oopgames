@@ -52,23 +52,19 @@ function drawLShapeWall(x, y, width, height, thickness, rotation = 0) {
         
         case 0 : 
             wall.addSegment(x, y, thickness, height);
-
             wall.addSegment(x, y + height - thickness, width, thickness);
             break;
         case 90: 
-            wall.addSegment(x + width - thickness, y, thickness, height);
-
-            wall.addSegment(x,y, width, thickness);
+            wall.addSegment(x, y, thickness, height);
+            wall.addSegment(x, y, width, thickness);
             break;
         case 180: 
             wall.addSegment(x + width - thickness, y, thickness, height);
-
-            wall.addSegment(x, y + height - thickness, width, thickness);
+            wall.addSegment(x,y, width, thickness);
             break;
         case 270: 
-            wall.addSegment(x, y, thickness, height);
-
-            wall.addSegment(x, y, width, thickness);
+            wall.addSegment(x + width - thickness, y, thickness, height);
+            wall.addSegment(x, y + height - thickness, width, thickness);
             break;
     }
     

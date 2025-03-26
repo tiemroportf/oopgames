@@ -9,15 +9,13 @@ function endGame() {
     if (bothDead || totalScore >= maxPoints) {
         
         if (blurAmount < 5) {
-            blurAmount += 0.3; // Adjust speed if needed
+            blurAmount += 0.3;
         }
         
     
         
-        noLoop();
-    
-        
-        filter(BLUR, 5); 
+        noLoop();        
+        filter(BLUR, blurAmount); 
         textSize(50);
         fill(255, 0, 0);
         textFont(font);
@@ -34,6 +32,7 @@ function endGame() {
     
         text(`TIME SURVIVED: ${nf(minutes, 2)}:${nf(seconds, 2)}:${formattedMilliseconds}`, width / 2, height / 2 + 70);
 
+        
         stopwatchRunning = false;
         ebtn.draw();  
         ebtn.visible = true;

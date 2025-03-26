@@ -5,6 +5,9 @@ function validatePointPos(x, y) {
     if (x < minX || x > maxX || y < minY || y > maxY) {
         return false; 
     }
+    if ( (x <= 475 && x >= 400 &&  y <=  275  && y >= 200)) {
+        return false;
+    }
 
     for (let wall of walls) {
         if (wall.isSegmented && Array.isArray(wall.segments)) {
