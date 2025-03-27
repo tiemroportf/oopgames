@@ -1,11 +1,11 @@
 function validatePointPos(x, y) {
-    let minX = 75, minY = 50;
-    let maxX = windowWidth - 75, maxY = windowHeight - 50;
+    let minX = 325, minY = 75;
+    let maxX = 1575, maxY = windowHeight - 50;
 
     if (x < minX || x > maxX || y < minY || y > maxY) {
         return false; 
     }
-    if ( (x <= 475 && x >= 400 &&  y <=  275  && y >= 200)) {
+    if ( (x <= 575 && x >= 500 &&  y <=  275  && y >= 200)) {
         return false;
     }
 
@@ -17,16 +17,15 @@ function validatePointPos(x, y) {
                     return false; 
                 }
             }
-        } else {
-            if (x >= wall.x && x < wall.x + wall.width &&
-                y >= wall.y && y < wall.y + wall.height) {
+        } else if (x >= wall.x && x < wall.x + wall.width && y >= wall.y && y < wall.y + wall.height) {
                 return false; 
-            }
         }
     }
-
     return true; 
 }
+
+   
+
 
 function validatePointCollection() {
     let pacColors = ["yellow", "red"];

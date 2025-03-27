@@ -5,6 +5,8 @@ function checkPacGhostCollision() {
             let ghost = ghosts[ghostColor];
             let now = millis();
 
+            
+
             if (!pac.lastHitTime[ghostColor]) pac.lastHitTime[ghostColor] = 0;
 
             let touching = dist(pac.x, pac.y, ghost.x, ghost.y) < 25;
@@ -57,8 +59,8 @@ function movePacman(color) {
         pac.y = constrain(newY, 0, windowHeight - 25);
     }
 
-    if (pac.x < 75) pac.x = 1825;
-    if (pac.x > 1825) pac.x = 75;
+    if (pac.x < 325) pac.x = 1575;
+    if (pac.x > 1575) pac.x = 325;
 
     validatePointCollection();
 }
@@ -92,8 +94,8 @@ function moveGhost(color) {
         ghost.y = constrain(newY, 0, windowHeight - 25);
     }
 
-    if (ghost.x < 75) ghost.x = 1825;
-    if (ghost.x > 1825) ghost.x = 75;
+    if (ghost.x < 325) ghost.x = 1575;
+    if (ghost.x > 1575) ghost.x = 325;
 }
 
 

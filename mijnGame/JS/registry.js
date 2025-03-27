@@ -5,8 +5,8 @@ function endGame() {
     let bothDead = Object.values(pacmen).every(pac => pac.lives === 0);
     let totalScore = Object.values(pacmen).reduce((sum, pac) => sum + pac.score, 0);
 
-    let maxPoints = points.length * 10;
-    if (bothDead || totalScore >= maxPoints) {
+    let maxPoints = points.length  * 10;
+    if (bothDead || totalScore >= maxPoints || gameOver) {
         
         if (blurAmount < 5) {
             blurAmount += 0.3;
@@ -34,9 +34,10 @@ function endGame() {
 
         
         stopwatchRunning = false;
-        ebtn.draw();  
         ebtn.visible = true;
-
+        ebtn.draw();
+        gameOver = true;
+        redraw(10);
     }
 
    
@@ -53,9 +54,11 @@ function registerUI() {
     ebtn.onPress = function() {
         
         gameStarted = false;
+        gameOver = false;
         sbtn.visible = true;
         ebtn.visible = false;
-
+        ebtn.click();
+        
         
     }
 
@@ -88,8 +91,16 @@ function startGame() {
     drawPoints();
 
     for (let color in pacmen) {
-        drawPacman(color);
-        movePacman(color);
+
+        pac = pacmen[color];
+
+        if (pac.dying) {
+            pacDeathAnim(color);  
+        } else {
+            drawPacman(color);
+            movePacman(color);
+        }
+      
     }
 
     for (let color in ghosts) {

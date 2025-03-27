@@ -2,13 +2,14 @@ let l1Data;
 let walls = [];
 let font;
 let gui;
-let sbtn, ebtn;
+let sbtn, ebtn, cbtn;
 
 let startTime = 0;
 let elapsedTime = 0;
 let stopwatchRunning = false;
 
 let gameStarted = true;
+let gameOver = false;
 
 
 
@@ -25,8 +26,8 @@ let ghostSpeeds = {up: 25, right: 25, down: 25, left: 25};
 let directions = ["up", "right", "down", "left"];
 
 let pacmen = {
-    yellow: {x: 450 ,y: 450, score: 0, lives: 3, textureIndex: 0, animationCounter: 0,  direction: directions[1], lastHitTime: {}, canMove: true},
-    red: {x: 700, y: 700, score: 0,lives: 3, textureIndex: 0, animationCounter: 0,  direction: directions[3], lastHitTime: {}, canMove: true}
+    yellow: {x: 325 ,y: 75, score: 0, lives: 3, textureIndex: 0, animationCounter: 0,  direction: directions[1], lastHitTime: {}, canMove: true},
+    red: {x: 325, y: 775, score: 0,lives: 3, textureIndex: 0, animationCounter: 0,  direction: directions[3], lastHitTime: {}, canMove: true}
 };
 
 let ghosts =  {
@@ -109,7 +110,7 @@ function draw() {
     drawGui();
     registerUI();
 
-    
+  
 
     if (!gameStarted) {
         
@@ -123,12 +124,20 @@ function draw() {
 
 }
 
-function pacDeathAnim() {
-    for (let pacColor in pacmen) {
-        let pac = pacmen[color];
+function pacDeathAnim(color) {
+    let pac = pacmen[color];
+
+    if (!pac.dying) return;  
+
+    if (pac.deathFrame < 10) {  
+        image(pacmanTextures[color]["death"][pac.deathFrame], pac.x, pac.y, 25,25);
+        pac.deathFrame++;
+
+    } else {
+        pac.dying = false;  
+        pac.canMove = false;  
     }
 }
-
 function jsonDataToArray() {
     var wallData = l1Data['walls'];
     for (let i = 0; i < wallData.length; i++) {
@@ -179,15 +188,19 @@ function setupPoints() {
     }
 }
 
-
 function decreaseLives(color) {
-
     let pac = pacmen[color];
+
     if (pac.lives > 0) {
         pac.lives--;
     }
 
+    
 }
 
 
-
+function mousePressed() {
+    if (gameOver && ebtn.visible) {
+        ebtn.click();
+    }
+}

@@ -102,4 +102,3 @@ function drawTShapeWall(x, y, width, height, thickness, rotation = 0) {
 function drawSquareWall(x, y, size) {
     return new Wall(x, y, size, size);
 }
-
