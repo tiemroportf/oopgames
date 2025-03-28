@@ -99,30 +99,32 @@ function setup() {
 
     sbtn = createButton("Start Game", width / 2 - 130, height / 2, 200, 50);
     ebtn = createButton("End Game", width / 2 - 75, height / 2 + 90);
+    
 }
 
 function draw() {
     background(0);
-    if (keyIsDown(13)){
+
+    if (keyIsDown(13)) {
         drawRoster();
     }
 
     drawGui();
-    registerUI();
-
-  
+    registerUI(); // Ensure UI elements update properly
 
     if (!gameStarted) {
-        
         return;
-    }else {
+    } else {
         startGame();
         startStopwatch();
     }
-   
-    
 
+    if (gameOver) {
+        ebtn.visible = true;
+        ebtn.show();
+    }
 }
+
 
 function pacDeathAnim(color) {
     let pac = pacmen[color];

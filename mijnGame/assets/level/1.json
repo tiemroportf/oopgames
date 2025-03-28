@@ -72,9 +72,12 @@
         { "location": { "x": 1400, "y": 675 }, "width": 25, "height": 25},
         { "location": { "x": 1500, "y": 675 }, "width": 25, "height": 25},
         { "location": { "x": 1450, "y": 625 }, "width": 25, "height": 25},
+        { "location": { "x": 1275, "y": 475 }, "width": 25, "height": 25},
         { "location": { "x": 1450, "y": 725 }, "width": 25, "height": 25},
         { "location": { "x": 1275, "y": 700 }, "width": 50, "height": 50},
         { "location": { "x": 1225, "y": 525 }, "width": 50, "height": 50},
+        { "location": { "x": 1550, "y": 300 }, "width": 25, "height": 50},
+        { "location": { "x": 1500, "y": 375 }, "width": 75, "height": 125},
         { "type": "L", "location": { "x": 700, "y": 650 }, "width": 50, "height": 200, "thickness": 25, "rotation": 180},
         { "type": "L", "location": { "x": 800, "y": 275 }, "width": 50, "height": 50, "thickness": 25, "rotation": 180},
         { "type": "L", "location": { "x": 800, "y": 600 }, "width": 200, "height": 75, "thickness": 25, "rotation": 90},
@@ -124,7 +127,13 @@
         { "type": "L", "location": { "x": 1475, "y": 725 }, "width": 50, "height": 75, "thickness": 25, "rotation": 270 },
         { "type": "L", "location": { "x": 1400, "y": 725 }, "width": 50, "height": 75, "thickness": 25, "rotation": 0 },
         { "type": "L", "location": { "x": 1275, "y": 775 }, "width": 50, "height": 75, "thickness": 25, "rotation": 0 },
-        { "type": "T", "location": { "x": 1275, "y": 550 }, "width": 75, "height": 75, "thickness": 25, "rotation": 180 }
+        { "type": "T", "location": { "x": 1275, "y": 550 }, "width": 75, "height": 75, "thickness": 25, "rotation": 180 },
+        { "type": "L", "location": { "x": 1325, "y": 425 }, "width": 50, "height": 75, "thickness": 25, "rotation": 0 },
+        { "type": "L", "location": { "x": 1375, "y": 375 }, "width": 50, "height": 75, "thickness": 25, "rotation": 270 },
+        { "type": "L", "location": { "x": 1400, "y": 425 }, "width": 75, "height": 75, "thickness": 25, "rotation": 270 }
+
+       
+        
 
 
     

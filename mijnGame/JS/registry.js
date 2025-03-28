@@ -4,72 +4,60 @@ let blurAmount = 0;
 function endGame() {
     let bothDead = Object.values(pacmen).every(pac => pac.lives === 0);
     let totalScore = Object.values(pacmen).reduce((sum, pac) => sum + pac.score, 0);
+    let maxPoints = points.length * 10;
 
-    let maxPoints = points.length  * 10;
-    if (bothDead || totalScore >= maxPoints || gameOver) {
-        
+    if (bothDead || totalScore >= maxPoints) {
         if (blurAmount < 5) {
             blurAmount += 0.3;
         }
-        
-    
-        
-        noLoop();        
-        filter(BLUR, blurAmount); 
+
+        noLoop();
+        filter(BLUR, blurAmount);
         textSize(50);
         fill(255, 0, 0);
         textFont(font);
         text("GAME OVER", width / 2, height / 2);
         textSize(25);
-        text("FINAL SCORE: " + totalScore, width/2, height / 2 + 40);
-    
-    
+        text("FINAL SCORE: " + totalScore, width / 2, height / 2 + 40);
+
         let totalMilliseconds = elapsedTime;
         let minutes = floor(totalMilliseconds / 60000);
         let seconds = floor((totalMilliseconds % 60000) / 1000);
         let milliseconds = nf(totalMilliseconds % 1000, 3);
-        let formattedMilliseconds = milliseconds.substring(0, 2); 
-    
-        text(`TIME SURVIVED: ${nf(minutes, 2)}:${nf(seconds, 2)}:${formattedMilliseconds}`, width / 2, height / 2 + 70);
+        let formattedMilliseconds = milliseconds.substring(0, 2);
 
-        
+        text(
+            `TIME SURVIVED: ${nf(minutes, 2)}:${nf(seconds, 2)}:${formattedMilliseconds}`,
+            width / 2, height / 2 + 70
+        );
+
+        redraw(60);
         stopwatchRunning = false;
-        ebtn.visible = true;
-        ebtn.draw();
-        gameOver = true;
-        redraw(10);
+        ebtn.visible = true; // Ensure the button is visible
+     
     }
-
-   
-   
 }
+
     
 
 function registerUI() {
-    
+    ebtn.visible = false;  // Hide the end game button initially
 
-    ebtn.visible = false;
-  
     sbtn.setStyle("font", font);
+    ebtn.setStyle("font", font);
     ebtn.onPress = function() {
-        
         gameStarted = false;
-        gameOver = false;
         sbtn.visible = true;
-        ebtn.visible = false;
-        ebtn.click();
-        
-        
+        ebtn.visible = false;  // Hide the "End Game" button when starting a new game
     }
 
     sbtn.onPress = function() {
         gameStarted = true;
         sbtn.visible = false;
-        ebtn.visible = false;
-
+        ebtn.visible = false;  // Hide the "End Game" button when starting a new game
     }
-
 }
+
 
 function startGame() {
     drawTelemetry();
@@ -91,16 +79,8 @@ function startGame() {
     drawPoints();
 
     for (let color in pacmen) {
-
-        pac = pacmen[color];
-
-        if (pac.dying) {
-            pacDeathAnim(color);  
-        } else {
-            drawPacman(color);
-            movePacman(color);
-        }
-      
+        drawPacman(color);
+        movePacman(color);
     }
 
     for (let color in ghosts) {
