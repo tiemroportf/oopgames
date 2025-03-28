@@ -23,8 +23,8 @@ class Wall {
     draw() {
         push();
         noFill();
-        stroke('blue');
-        strokeWeight(1);
+        stroke('darkblue');
+        strokeWeight(2);
         if (this.isSegmented && Array.isArray(this.segments)) {
             for (let segment of this.segments) {
                 rect(segment.x, segment.y, segment.width, segment.height);
