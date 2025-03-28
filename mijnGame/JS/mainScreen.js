@@ -1,8 +1,9 @@
 let l1Data;
+let mainSound, deathSound;
 let walls = [];
 let font;
 let gui;
-let sbtn, ebtn, cbtn;
+let sbtn, cbtn;
 
 let startTime = 0;
 let elapsedTime = 0;
@@ -72,6 +73,8 @@ function preload() {
             
         }
     }
+    mainSound = loadSound(`sounds/pacman_beginning.wav`);
+    deathSound = loadSound(`sounds/pacman_death.wav`);
 }
 
 function setup() {
@@ -98,13 +101,17 @@ function setup() {
 
 
     sbtn = createButton("Start Game", width / 2 - 130, height / 2, 200, 50);
-    ebtn = createButton("End Game", width / 2 - 75, height / 2 + 90);
+    
     
 }
 
 function draw() {
     background(0);
 
+    if (mouseIsPressed === true) {
+        playmainSound();
+    }
+    
     if (keyIsDown(13)) {
         drawRoster();
     }
@@ -119,10 +126,7 @@ function draw() {
         startStopwatch();
     }
 
-    if (gameOver) {
-        ebtn.visible = true;
-        ebtn.show();
-    }
+  
 }
 
 
@@ -200,9 +204,8 @@ function decreaseLives(color) {
     
 }
 
-
-function mousePressed() {
-    if (gameOver && ebtn.visible) {
-        ebtn.click();
+function playmainSound() {
+    if (!mainSound.isPlaying()) {  // Check if the mainSound is not playing
+        mainSound.play();  // Play the mainSound
     }
 }

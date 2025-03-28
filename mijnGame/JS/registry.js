@@ -12,7 +12,7 @@ function endGame() {
         }
 
         noLoop();
-        filter(BLUR, blurAmount);
+        filter(BLUR,5 );
         textSize(50);
         fill(255, 0, 0);
         textFont(font);
@@ -30,10 +30,12 @@ function endGame() {
             `TIME SURVIVED: ${nf(minutes, 2)}:${nf(seconds, 2)}:${formattedMilliseconds}`,
             width / 2, height / 2 + 70
         );
+        fill(0,255,0);
+        text("Press F5 to restart!", width /2 , height /2 + 100);
 
-        redraw(60);
+      
         stopwatchRunning = false;
-        ebtn.visible = true; // Ensure the button is visible
+    
      
     }
 }
@@ -41,20 +43,12 @@ function endGame() {
     
 
 function registerUI() {
-    ebtn.visible = false;  // Hide the end game button initially
+     // Hide the end game button initially
 
     sbtn.setStyle("font", font);
-    ebtn.setStyle("font", font);
-    ebtn.onPress = function() {
-        gameStarted = false;
-        sbtn.visible = true;
-        ebtn.visible = false;  // Hide the "End Game" button when starting a new game
-    }
-
     sbtn.onPress = function() {
         gameStarted = true;
         sbtn.visible = false;
-        ebtn.visible = false;  // Hide the "End Game" button when starting a new game
     }
 }
 
