@@ -9,7 +9,7 @@ let startTime = 0;
 let elapsedTime = 0;
 let stopwatchRunning = false;
 
-let gameStarted = true;
+let gameStarted = false;
 let gameOver = false;
 
 
@@ -120,6 +120,7 @@ function draw() {
     registerUI(); // Ensure UI elements update properly
 
     if (!gameStarted) {
+        
         return;
     } else {
         startGame();

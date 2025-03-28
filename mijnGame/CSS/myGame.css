@@ -1,6 +1,7 @@
 html,body {
     margin: 0;
     padding: 0;
+    background-color: black;
 }
 
 body {
@@ -8,3 +9,6 @@ body {
     font-family: 'Press Start 2P', sans-serif; 
 }
 
+h1 {
+    background-color: black;
+}
